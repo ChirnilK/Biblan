@@ -1,14 +1,15 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.List;
 
-/*
+
 public class Method {
 
-    public void addMember(String name, int age) {
-        members.add(new Member(name, age));
-    }
 
+
+}
+/*
     public void showMembers() {
         for (Member member : members) {
             System.out.println(member);

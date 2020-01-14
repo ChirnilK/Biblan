@@ -11,16 +11,18 @@ public class Library {
     private ArrayList<Book> availableBooks = new ArrayList<>();
 
     public Library() {
-        users.add(new User("Johan", "070-3343333"));
-        users.add(new User("Maria", "070-3348877"));
-        users.add(new User("Sari", "070-3378393"));
-        FileUtils.saveObject("users.ser", users);
-
         books.add(new Book("Discrete mathematics", "hhh", "ddd", true));
         books.add(new Book("Fourier transform", "fff", "here", true));
         books.add(new Book("Calculus 1", "ggg", "gewr", true));
         FileUtils.saveObject("books.ser", books);
 
+        users.add(new Librarian("Johan", "070-3343333"));
+        users.add(new Librarian("Maria", "070-3348877"));
+        users.add(new Librarian("Sari", "070-3378393"));
+        users.add(new Customer("Tary", "070-3343333"));
+        users.add(new Customer("Pontos", "070-3348877"));
+        users.add(new Customer("Kai", "070-3378393"));
+        FileUtils.saveObject("users.ser", users);
     }
 
 
@@ -45,15 +47,32 @@ public class Library {
                     System.out.println("Press...");
                     System.out.println("1 to add book");
                     System.out.println("2 to add user information");
+                    System.out.println("3 to show all library books");
+                    System.out.println("4 to show all users");
                     System.out.println("11 to quit");
                     System.out.println("--------------------");
                     Scanner librarian = new Scanner(System.in);
                     int librarianChoice = Integer.parseInt(librarian.nextLine());
                     switch (librarianChoice) {
                         case 1:
+                            System.out.println("Input the book title");
+                            String title = librarian.nextLine();
+                            System.out.println("Input the book author");
+                            String author = librarian.nextLine();
+                            System.out.println("Input the description of the book");
+                            String description = librarian.nextLine();
+                            addBook(title, author, description, true);
                             break;
 
                         case 2:
+                            break;
+
+                        case 3:
+                            showAllBooks();
+                            break;
+
+                        case 4:
+                            showAllUsers();
                             break;
 
                         case 11:
@@ -76,6 +95,7 @@ public class Library {
                     int userChoice = Integer.parseInt(user.nextLine());
                     switch (userChoice) {
                         case 1:
+                            showAllBooks();
                             break;
 
                         case 2:
@@ -105,7 +125,26 @@ public class Library {
                             break;
 
                     }
-                }
             }
         }
     }
+
+    public void addBook(String title, String author, String description, boolean available) {
+        books.add(new Book(title, author, description, true));
+        FileUtils.saveObject("books.ser", books);
+    }
+
+    public void showAllBooks() {
+        List<Book> books = (List) FileUtils.loadObject("books.ser");
+        for (Book book : books) {
+            book.bookInfo();
+        }
+    }
+
+    public void showAllUsers() {
+        List<User> users = (List) FileUtils.loadObject("users.ser");
+        for (User user : users) {
+            user.userInfor();
+        }
+    }
+}

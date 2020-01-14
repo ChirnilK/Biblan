@@ -29,7 +29,7 @@ public class Book implements Serializable {
     }
 
     public void bookInfo(){
-        System.out.printf("Book title : %s, Author: %s, Description : %s, Availability %s:\n", title, author,description,available);
+        System.out.printf("Book title : %s, Author: %s, Description : %s, Available %s:\n", title, author,description,available);
     }
 
 }
