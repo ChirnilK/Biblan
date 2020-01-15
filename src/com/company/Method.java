@@ -21,6 +21,7 @@ public class Method {
     }
 
     public void showAllBooks(ArrayList<Book> list) {
+        FileUtils.saveObject("books.ser", list);
         List<Book> list1 = (List) FileUtils.loadObject("books.ser");
         for (Book book : list1) {
             book.bookInfo();
@@ -28,7 +29,9 @@ public class Method {
     }
 
     public void showAllUsers(ArrayList<User> list) {
-        for (User user : list) {
+        FileUtils.saveObject("users.ser", list);
+        List<User> list1 = (List) FileUtils.loadObject("users.ser");
+        for (User user : list1) {
             user.userInfor();
         }
     }
@@ -48,20 +51,25 @@ public class Method {
                 return user;
             }
         }
+        System.out.println("can't find your name in the list.");
+        System.out.println("Please contact librarian");
         return null;
     }
 
 
     public void borrowBook(String memberName, String itemName, ArrayList<User> userList, ArrayList<Book> bookList) {
         User user = getUser(memberName, userList);
-        for (Book book : bookList) {
-            if (book.getTitle().equals(itemName) && book.isAvailable()) {
-                user.addLoan(book);
-                System.out.println(user.getName() + " borrowed the book : " + itemName);
-                return;
+        if (user!=null){
+            for (Book book : bookList) {
+                if (book.getTitle().equals(itemName) && book.isAvailable()) {
+                    user.addLoan(book);
+                    System.out.println(user.getName() + " borrowed the book : " + itemName);
+                    return;
+                } else if (book.getTitle().equals(itemName) && !book.isAvailable()) {
+                    System.out.println("The book is not available");
+                }
             }
         }
-        System.out.println("We don't have such item");
     }
 
     public void showUserLoans(String userName, ArrayList<User> userList) {
@@ -102,6 +110,28 @@ public class Method {
         return null;
     }
 
+    public User findUserByName(String name, ArrayList<User> userList) {
+        for (User user: userList) {
+            if(user.getName().toLowerCase().contains(name.toLowerCase())){
+                user.userInfor();
+                return user;
+            }
+        }
+        System.out.println("can't find");
+        return null;
+    }
+
+    public void removeBook(Book book, ArrayList<Book> bookList){
+            bookList.remove(book);
+        System.out.printf("The book : '%s' is removed", book.getTitle());
+        }
+
+    public void removeUser(User user, ArrayList<User> userList){
+        userList.remove(user);
+        System.out.printf("The user : '%s' is removed", user.getName());
+    }
+
+
 }
 
 
@@ -110,40 +140,6 @@ public class Method {
 
 
 /*
-
-
-
-    public void showAllBooks(String fileName) {
-        fileName = fileName+".ser";
-        List<Book> books = (List) FileUtils.loadObject(fileName);
-        for (Book book : books) {
-            book.bookInfo();
-        }
-    }
-
-
-
-
-    public void showAllUsers() {
-        List<User> users = (List) FileUtils.loadObject("users.ser");
-        for (User user : users) {
-            user.userInfor();
-        }
-    }
-
-
-}
-}
-/*
-    public void showMembers() {
-        for (Member member : members) {
-            System.out.println(member);
-        }
-    }
-
-    public void addItems(LibraryItem item) {
-        libraryItems.add(item);
-    }
 
 
 
@@ -201,16 +197,6 @@ public class Method {
         }
     }
 
-    public ArrayList<LibraryItem> onlyAvailableItems() {
-        for (LibraryItem item : libraryItems) {
-            if ((item.getAvailable()) == true) {
-                availableItems.add(item);
-                System.out.println(item);
-            }
-        }
-        return availableItems;
-    }
-
     public void showAvailablePS3() {
         for (LibraryItem item : libraryItems) {
             if ((item.getAvailable() && item instanceof Game)) {
@@ -220,34 +206,4 @@ public class Method {
             }
         }
     }
-
-    public void showAvailableXBox360() {
-        for (LibraryItem item : libraryItems) {
-            if ((item.getAvailable() && item instanceof Game)) {
-                if (((Game) item).getConsoleType().equals(ConsoleType.XBOX360)) {
-                    System.out.println(item);
-                }
-            }
-        }
-    }
-
-    public void showAvailableWii() {
-        for (LibraryItem item : libraryItems) {
-            if ((item.getAvailable() && item instanceof Game)) {
-                if (((Game) item).getConsoleType().equals(ConsoleType.WII)) {
-                    System.out.println(item);
-                }
-            }
-        }
-    }
-
-    public void showAllBooks(){
-        for (LibraryItem item : libraryItems) {
-            if (item instanceof Book) {
-                System.out.println(item);
-            }
-        }
-    }
-
-}
 */

@@ -7,7 +7,7 @@ public class Librarian extends User {
 
     @Override
     public void userInfor() {
-        System.out.println("Librarian{" +
+        System.out.println("Librarian {" +
                 "Name : '" + getName() + '\'' +
                 ", SocialSecNumber : '" + getSocialSecNumber() + '\'' +
                 '}');

@@ -7,7 +7,7 @@ public class Customer extends User {
 
     @Override
     public void userInfor() {
-        System.out.println("Customer{" +
+        System.out.println("Customer  {" +
                 "Name : '" + getName() + '\'' +
                 ", SocialSecNumber : '" + getSocialSecNumber() + '\'' +
                 '}');

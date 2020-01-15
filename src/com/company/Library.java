@@ -71,9 +71,33 @@ public class Library implements Serializable {
                             break;
 
                         case 5: //Remove book
+                            System.out.println("Which book do you want to remove from the list");
+                            method.showAllBooks(books);
+                            String removeBook = librarian.nextLine();
+                            Book book = method.findBookByTitle(removeBook, books);
+                            System.out.println("Whould you like to remove this book?  y/n");
+                            String answer = librarian.nextLine();
+                            if (answer.equals("y")) {
+                                method.removeBook(book, books);
+                            }
+                            else if (answer.equals("n")) {
+                                break;
+                            }
                             break;
 
                         case 6: //Remove user
+                            System.out.println("Which user do you want to remove from the list");
+                            method.showAllUsers(users);
+                            String removeUser = librarian.nextLine();
+                            User user = method.findUserByName(removeUser, users);
+                            System.out.println("Whould you like to remove this book?  y/n");
+                            String answerU = librarian.nextLine();
+                            if (answerU.equals("y")) {
+                                method.removeUser(user, users);
+                            }
+                            else if (answerU.equals("n")) {
+                                break;
+                            }
                             break;
 
                         case 9:  //Quit
@@ -122,76 +146,90 @@ public class Library implements Serializable {
                         case 6:  //Search book
                             System.out.println("Search by book title / author name?  Enter t / a ");
                             String search = user.nextLine();
-                            if (search.equals("t")){
+                            if (search.equals("t")) {
                                 System.out.println("What is the book title?");
                                 String searchTitle = user.nextLine();
-                                method.findBookByTitle(searchTitle, books);
-                            }
-                            else if (search.equals("a")){
+                                Book book = method.findBookByTitle(searchTitle, books);
+                                if (book != null) {
+                                    System.out.println("Would you like to borrow the book?  y/n");
+                                    String answer = user.nextLine();
+                                    if (answer.equals("y")) {
+                                        System.out.println("What is your name?");
+                                        String userName4 = user.nextLine();
+                                        method.borrowBook(userName4, book.getTitle(), users, books);
+                                    } else if (answer.equals("n")) {
+                                        break;
+                                    }
+                                }
+                            } else if (search.equals("a")) {
                                 System.out.println("What is the Author name?");
                                 String searchAuthor = user.nextLine();
-                                method.findBookByAuthor(searchAuthor, books);
+                                Book book = method.findBookByAuthor(searchAuthor, books);
+                                if (book != null) {
+                                    System.out.println("Would you like to borrow the book?  y/n");
+                                    String answer = user.nextLine();
+                                    if (answer.equals("y")) {
+                                        System.out.println("What is your name?");
+                                        String userName4 = user.nextLine();
+                                        method.borrowBook(userName4, book.getTitle(), users, books);
+                                    } else if (answer.equals("n")) {
+                                        break;
+                                    }
+                                } else {
+                                    System.out.println("Enter 't' or 'a'");
+                                }
                             }
-                            else{
-                                System.out.println("Enter 't' or 'a'");
-                            }
-                            break;
 
                         case 9: //Quit
                             break;
                     }
-                    break;
+                            break;
 
-                case "11":
-                    loop = false;
-                    break;
-            default:
-                System.out.println("To choose, enter either '1' or '2'");
+                        case "11":
+                            loop = false;
+                            break;
+                        default:
+                            System.out.println("To choose, enter either '1' or '2'");
 
+                    }
             }
         }
-    }
 
-    public void meinMenu() {
-        System.out.println("");
-        System.out.println("---- Welcome to the Skåne library! ----");
-        System.out.println("Librarian : Enter '1'");
-        System.out.println("Customer  : Enter '2'");
-        System.out.println("Quit      : Enter 11");
-        System.out.println("--------------------");
-    }
+        public void meinMenu () {
+            System.out.println("");
+            System.out.println("---- Welcome to the Skåne library! ----");
+            System.out.println("Librarian : Enter '1'");
+            System.out.println("Customer  : Enter '2'");
+            System.out.println("Quit      : Enter 11");
+            System.out.println("--------------------");
+        }
 
-    public void librarianMenu() {
-        System.out.println("--------------------");
-        System.out.println("Enter");
-        System.out.println("1 : Add book");
-        System.out.println("2 : Add user");
-        System.out.println("3 : Show all books");
-        System.out.println("4 : Show all users");
-        System.out.println("5 : Remove book");
-        System.out.println("6 : Remove user");
-        System.out.println("9 : Quit");
-        System.out.println("--------------------");
-    }
+        public void librarianMenu () {
+            System.out.println("--------------------");
+            System.out.println("Enter");
+            System.out.println("1 : Add book");
+            System.out.println("2 : Add user");
+            System.out.println("3 : Show all books");
+            System.out.println("4 : Show all users");
+            System.out.println("5 : Remove book");
+            System.out.println("6 : Remove user");
+            System.out.println("9 : Quit");
+            System.out.println("--------------------");
+        }
 
-    public void customerMenu(){
-        System.out.println("--------------------");
-        System.out.println("Enter");
-        System.out.println("1 : Borrow book");
-        System.out.println("2 : Return book");
-        System.out.println("3 : Show your borrowed items");
-        System.out.println("4 : Show all available books");
-        System.out.println("5 : Show all library books");
-        System.out.println("6 : Search book");
-        System.out.println("9 : Quit");
-        System.out.println("--------------------");
+        public void customerMenu () {
+            System.out.println("--------------------");
+            System.out.println("Enter");
+            System.out.println("1 : Borrow book");
+            System.out.println("2 : Return book");
+            System.out.println("3 : Show your borrowed items");
+            System.out.println("4 : Show all available books");
+            System.out.println("5 : Show all library books");
+            System.out.println("6 : Search book");
+            System.out.println("9 : Quit");
+            System.out.println("--------------------");
+        }
     }
-
-    //return false for 1 or 2, true for others
-    public boolean invalidInput(String choice) {
-        return !choice.equals("1") && !choice.equals("2");
-    }
-
 
 
   /*  public void loadHistory() {
@@ -201,4 +239,3 @@ public class Library implements Serializable {
         this.availableBooks = fileHistory.availableBooks;
         System.out.println("Game successfully loaded..");
     }*/
-}
