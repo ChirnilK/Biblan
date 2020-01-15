@@ -33,8 +33,8 @@ public class Method {
         }
     }
 
-    public void onlyAvailableBooks(ArrayList<Book> list1, ArrayList<Book> list2 ) {
-        for (Book book : list1) {
+    public void onlyAvailableBooks(ArrayList<Book> list) {
+        for (Book book : list) {
             if ((book.isAvailable())) {
                 book.bookInfo();
             }

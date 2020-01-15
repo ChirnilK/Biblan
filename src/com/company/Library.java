@@ -13,7 +13,6 @@ public class Library implements Serializable {
     Method method = new Method();
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<Book> books = new ArrayList<>();
-    private ArrayList<Book> availableBooks = new ArrayList<>();
 
     public ArrayList<Book> getBooks() {
         return books;
@@ -23,17 +22,14 @@ public class Library implements Serializable {
         return users;
     }
 
-    public ArrayList<Book> getAvailableBooks() {
-        return availableBooks;
-    }
+
 
     public void start() {
 
         boolean running = true;
-
         while (running) {
+            meinMenu();
             Scanner scanner = new Scanner(System.in);
-            System.out.println("---- Welcome to the Skåne library! ----");
             Path path = Paths.get("SaveHistory.ser");
            /* if (!Files.exists(path)) {
                 Files.createFile(path);
@@ -45,87 +41,62 @@ public class Library implements Serializable {
             else{
                 loadHistory();
             }*/
-            System.out.println("Press...");
-            System.out.println("1 for librarian");
-            System.out.println("2 for user");
-            System.out.println("11 to quit");
-            System.out.println("--------------------");
 
             String whoUseSystem = scanner.nextLine();
             switch (whoUseSystem) {
                 case "1":
-                    System.out.println("--------------------");
-                    System.out.println("Press...");
-                    System.out.println("1 to add book");
-                    System.out.println("2 to add user information");
-                    System.out.println("3 to show all library books");
-                    System.out.println("4 to show all users");
-                    System.out.println("11 to quit");
-                    System.out.println("--------------------");
+                    librarianMenu();
                     Scanner librarian = new Scanner(System.in);
                     int librarianChoice = Integer.parseInt(librarian.nextLine());
-                    switch (librarianChoice) {
-                        case 1:
-                            System.out.println("Input the book title");
-                            String title = librarian.nextLine();
-                            System.out.println("Input the book author");
-                            String author = librarian.nextLine();
-                            System.out.println("Input the description of the book");
-                            String description = librarian.nextLine();
-                            method.addBook(title, author, description, true, books);
-                            break;
+                        switch (librarianChoice) {
+                            case 1:
+                                System.out.println("Input the book title");
+                                String title = librarian.nextLine();
+                                System.out.println("Input the book author");
+                                String author = librarian.nextLine();
+                                System.out.println("Input the description of the book");
+                                String description = librarian.nextLine();
+                                method.addBook(title, author, description, true, books);
+                                break;
 
-                        case 2:
-                            System.out.println("Input the user name");
-                            String name = librarian.nextLine();
-                            System.out.println("Input the socialSecNumber");
-                            String secNumber = librarian.nextLine();
-                            System.out.println("Is the user Librarian/Customer? Anser with l/c");
-                            String category = librarian.nextLine();
-                            if (category.equals("l")){
-                                method.addLibrarian(name, secNumber,users);
-                            }
-                            else if (category.equals("c")){
-                                method.addCustomer(name,secNumber,users);
-                            }
-                            else{
-                                System.out.println("Input l or c");
-                            }
-                            break;
+                            case 2:
+                                System.out.println("Input the user name");
+                                String name = librarian.nextLine();
+                                System.out.println("Input the socialSecNumber");
+                                String secNumber = librarian.nextLine();
+                                System.out.println("Is the user Librarian/Customer? Anser with l/c");
+                                String category = librarian.nextLine();
+                                if (category.equals("l")) {
+                                    method.addLibrarian(name, secNumber, users);
+                                } else if (category.equals("c")) {
+                                    method.addCustomer(name, secNumber, users);
+                                } else {
+                                    System.out.println("Input l or c");
+                                }
+                                break;
 
-                        case 3:
-                            method.showAllBooks(books);
-                            break;
+                            case 3:
+                                method.showAllBooks(books);
+                                break;
 
-                        case 4:
-                            method.showAllUsers(users);
-                            break;
+                            case 4:
+                                method.showAllUsers(users);
+                                break;
 
-                        case 11:
-                            System.exit(0);
-                            running = false;
-                            break;
+                            case 9:
+                                break;
+                        }
+                        break;
 
-                    }
                 case "2":
-                    System.out.println("--------------------");
-                    System.out.println("Press...");
-                    System.out.println("1 to borrow book");
-                    System.out.println("2 to return book");
-                    System.out.println("3 to show your borrowed items");
-                    System.out.println("4 to show all available books");
-                    System.out.println("5 to show all library books");
-                    System.out.println("6 to search book");
-                    System.out.println("11 to quit...");
-                    System.out.println("--------------------");
+                    customerMenu();
                     Scanner user = new Scanner(System.in);
                     int userChoice = Integer.parseInt(user.nextLine());
                     switch (userChoice) {
                         case 1:
                             System.out.println("What is your name?");
                             String userName1 = scanner.nextLine();
-                            method.onlyAvailableBooks(books, availableBooks);
-                            method.showAllBooks(availableBooks);
+                            method.onlyAvailableBooks(books);
                             System.out.println("What would you like to borrow?");
                             String borrow = scanner.nextLine();
                             method.borrowBook(userName1, borrow, users, books);
@@ -147,25 +118,60 @@ public class Library implements Serializable {
                             break;
 
                         case 4:
-                            method.onlyAvailableBooks(books, availableBooks);
+                            method.onlyAvailableBooks(books);
                             break;
 
-/*
+
                         case 5:
-                            method.showAllBooks("books");
+                            method.showAllBooks(books);
                             break;
 
                         case 6:
                             break;
 
 
-                        case 11:
-                            running = false;
-                            break;*/
+                        case 9:
+                            break;
                     }
-                    }
+                    break;
+                }
             }
         }
+
+    public void meinMenu() {
+        System.out.println("");
+        System.out.println("---- Welcome to the Skåne library! ----");
+        System.out.println("Librarian : Enter '1'");
+        System.out.println("Customer  : Enter '2'");
+        System.out.println("Quit      : Enter 11");
+        System.out.println("--------------------");
+    }
+
+    public void librarianMenu() {
+        System.out.println("--------------------");
+        System.out.println("Enter");
+        System.out.println("1 : Add book");
+        System.out.println("2 : Add user");
+        System.out.println("3 : Show all books");
+        System.out.println("4 : Show all users");
+        System.out.println("5 : Remove book");
+        System.out.println("6 : Remove user");
+        System.out.println("9 : Quit");
+        System.out.println("--------------------");
+    }
+
+    public void customerMenu(){
+        System.out.println("--------------------");
+        System.out.println("Enter");
+        System.out.println("1 : Borrow book");
+        System.out.println("2 : Return book");
+        System.out.println("3 : Show your borrowed items");
+        System.out.println("4 : Show all available books");
+        System.out.println("5 : Show all library books");
+        System.out.println("6 : Search book");
+        System.out.println("9 : Quit");
+        System.out.println("--------------------");
+    }
 
 
   /*  public void loadHistory() {
