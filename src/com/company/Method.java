@@ -80,7 +80,30 @@ public class Method {
         }
     }
 
+    public Book findBookByTitle(String name, ArrayList<Book> bookList) {
+        for (Book book: bookList) {
+            if(book.getTitle().toLowerCase().contains(name.toLowerCase())){
+                book.bookInfo();
+                return book;
+            }
+        }
+        System.out.println("can't find");
+        return null;
+    }
+
+    public Book findBookByAuthor(String name, ArrayList<Book> bookList) {
+        for (Book book: bookList) {
+            if(book.getAuthor().toLowerCase().contains(name.toLowerCase())){
+                book.bookInfo();
+                return book;
+            }
+        }
+        System.out.println("can't find");
+        return null;
+    }
+
 }
+
 
 
 

@@ -88,25 +88,25 @@ public class Library implements Serializable {
                     switch (userChoice) {
                         case 1:    //Borrow book
                             System.out.println("What is your name?");
-                            String userName1 = scanner.nextLine();
+                            String userName1 = user.nextLine();
                             method.onlyAvailableBooks(books);
                             System.out.println("What would you like to borrow?");
-                            String borrow = scanner.nextLine();
+                            String borrow = user.nextLine();
                             method.borrowBook(userName1, borrow, users, books);
                             break;
 
                         case 2:   //Return book
                             System.out.println("What is your name?");
-                            String userName2 = scanner.nextLine();
+                            String userName2 = user.nextLine();
                             method.showUserLoans(userName2, users);
                             System.out.println("Which one would you like to return?");
-                            String returnItem = scanner.nextLine();
+                            String returnItem = user.nextLine();
                             method.returnBook(userName2, returnItem, users);
                             break;
 
                         case 3:  //Show user's borrowed items
                             System.out.println("What is your name?");
-                            String userName3 = scanner.nextLine();
+                            String userName3 = user.nextLine();
                             method.showUserLoans(userName3, users);
                             break;
 
@@ -120,6 +120,21 @@ public class Library implements Serializable {
                             break;
 
                         case 6:  //Search book
+                            System.out.println("Search by book title / author name?  Enter t / a ");
+                            String search = user.nextLine();
+                            if (search.equals("t")){
+                                System.out.println("What is the book title?");
+                                String searchTitle = user.nextLine();
+                                method.findBookByTitle(searchTitle, books);
+                            }
+                            else if (search.equals("a")){
+                                System.out.println("What is the Author name?");
+                                String searchAuthor = user.nextLine();
+                                method.findBookByAuthor(searchAuthor, books);
+                            }
+                            else{
+                                System.out.println("Enter 't' or 'a'");
+                            }
                             break;
 
                         case 9: //Quit
