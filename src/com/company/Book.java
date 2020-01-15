@@ -24,6 +24,10 @@ public class Book implements Serializable {
         return author;
     }
 
+    public boolean isAvailable() {
+        return available;
+    }
+
     public void setAvailable(boolean available) {
         this.available = available;
     }

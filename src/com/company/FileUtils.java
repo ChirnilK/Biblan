@@ -1,5 +1,7 @@
 package com.company;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
@@ -13,49 +15,6 @@ import java.util.Scanner;
 
 public class FileUtils {
 
-    //Read from file...
-    public static void readAllLines(String fileName) {
-
-        List<String> lines = null;
-        fileName = fileName+".txt";
-
-        try {
-            lines = Files.readAllLines(Paths.get(fileName));
-            for (String line : lines){
-                System.out.println(line);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    //Write some lines to a file
-    public static void writeAllLines(ArrayList<String> data, String fileName) {
-        List<String> lines = data;
-        fileName = fileName+".txt";
-        try {
-            Path path = Paths.get(fileName);
-            if (!Files.exists(path)) {
-                System.out.println("there is no such file");
-                System.out.println("Do you want to make a new file with the name? y/n");
-                Scanner scanner = new Scanner(System.in);
-                String answer = scanner.nextLine();
-                if (answer.equals("y")) {
-                    Files.createFile(path);
-                    Files.write(path, lines, StandardCharsets.UTF_8);  //StandardCharsets.UTF_8 är recommenderad att skrivas !
-                }
-                else if(answer.equals("n")){
-                    System.exit(0);
-                }
-            } else {
-                System.out.println("The file exists");
-                Files.write(path, lines, StandardCharsets.UTF_8);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void saveObject(String filename, Object object, StandardOpenOption... option) {
         Path path = Paths.get(filename);
@@ -76,22 +35,47 @@ public class FileUtils {
         return null;
     }
 
-    public static void saveText(String filename, List<String> list, StandardOpenOption... option) {
-        Path path = Paths.get(filename);
+    /*
+    //Read from file...
+    public static void readAllLines(String fileName) {
+
+        List<String> lines = null;
+        fileName = fileName + ".txt";
+
         try {
-            Files.write(path, list, option);
+            lines = Files.readAllLines(Paths.get(fileName));
+            for (String line : lines) {
+                System.out.println(line);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static List<String> loadText(String filename) {
-        Path path = Paths.get(filename);
+    //Write some lines to a file
+    public static void writeAllLines(ArrayList<String> data, String fileName) {
+        List<String> lines = data;
+        fileName = fileName + ".txt";
         try {
-            return Files.readAllLines(path);
+            Path path = Paths.get(fileName);
+            if (!Files.exists(path)) {
+                System.out.println("there is no such file");
+                System.out.println("Do you want to make a new file with the name? y/n");
+                Scanner scanner = new Scanner(System.in);
+                String answer = scanner.nextLine();
+                if (answer.equals("y")) {
+                    Files.createFile(path);
+                    Files.write(path, lines, StandardCharsets.UTF_8);  //StandardCharsets.UTF_8 är recommenderad att skrivas !
+                } else if (answer.equals("n")) {
+                    System.exit(0);
+                }
+            } else {
+                System.out.println("The file exists");
+                Files.write(path, lines, StandardCharsets.UTF_8);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
-    }
+    }*/
 }

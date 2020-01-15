@@ -7,7 +7,109 @@ import java.util.List;
 public class Method {
 
 
+    public void addBook(String title, String author, String description, boolean available, ArrayList<Book> list) {
+        list.add(new Book(title, author, description, true));
+    }
 
+
+    public void addLibrarian(String name, String secNumber, ArrayList<User> userList) {
+        userList.add(new Librarian(name, secNumber));
+    }
+
+    public void addCustomer(String name, String secNumber, ArrayList<User> userList) {
+        userList.add(new Customer(name, secNumber));
+    }
+
+    public void showAllBooks(ArrayList<Book> list) {
+        List<Book> list1 = (List) FileUtils.loadObject("books.ser");
+        for (Book book : list1) {
+            book.bookInfo();
+        }
+    }
+
+    public void showAllUsers(ArrayList<User> list) {
+        for (User user : list) {
+            user.userInfor();
+        }
+    }
+
+    public void onlyAvailableBooks(ArrayList<Book> list1, ArrayList<Book> list2 ) {
+        for (Book book : list1) {
+            if ((book.isAvailable())) {
+                book.bookInfo();
+            }
+        }
+    }
+
+
+    public User getUser(String memberName, ArrayList<User> userList) {
+        for (User user : userList) {
+            if (user.getName().equals(memberName)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+
+    public void borrowBook(String memberName, String itemName, ArrayList<User> userList, ArrayList<Book> bookList) {
+        User user = getUser(memberName, userList);
+        for (Book book : bookList) {
+            if (book.getTitle().equals(itemName) && book.isAvailable()) {
+                user.addLoan(book);
+                System.out.println(user.getName() + " borrowed the book : " + itemName);
+                return;
+            }
+        }
+        System.out.println("We don't have such item");
+    }
+
+    public void showUserLoans(String userName, ArrayList<User> userList) {
+        User user = getUser(userName, userList);
+        if (user != null) {
+            user.showBorrowedBooks();
+        }
+    }
+
+    public void returnBook(String userName, String itemName, ArrayList<User> userList) {
+        User user = getUser(userName, userList);
+        if (user != null) {
+            if (user.returnBook(itemName)) {
+                System.out.println(user.getName() + " returned the item with title " + itemName);
+            }
+        }
+    }
+
+}
+
+
+
+
+
+/*
+
+
+
+    public void showAllBooks(String fileName) {
+        fileName = fileName+".ser";
+        List<Book> books = (List) FileUtils.loadObject(fileName);
+        for (Book book : books) {
+            book.bookInfo();
+        }
+    }
+
+
+
+
+    public void showAllUsers() {
+        List<User> users = (List) FileUtils.loadObject("users.ser");
+        for (User user : users) {
+            user.userInfor();
+        }
+    }
+
+
+}
 }
 /*
     public void showMembers() {
@@ -20,11 +122,7 @@ public class Method {
         libraryItems.add(item);
     }
 
-    public void showItems() {
-        for (LibraryItem item : libraryItems) {
-            System.out.println(item);
-        }
-    }
+
 
     public Member getMember(String memberName) {
         for (Member member : members) {

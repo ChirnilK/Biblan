@@ -23,7 +23,7 @@ public abstract class User implements Serializable {
 
     public abstract void userInfor();
 
-    public void borrowBook(Book book){
+    public void addLoan(Book book){
         borrowedBooks.add(book);
         book.setAvailable(false);
     }
@@ -43,9 +43,11 @@ public abstract class User implements Serializable {
 
     public void showBorrowedBooks() {
         if (borrowedBooks.size() == 0) {
-        } else {
+            System.out.println("You haven't borrowed any book.");
+        }
+        else {
             for (Book borrowedbook : borrowedBooks) {
-                System.out.println(borrowedbook);
+                borrowedbook.bookInfo();
             }
         }
     }
