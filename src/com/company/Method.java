@@ -7,6 +7,15 @@ import java.util.Scanner;
 
 public class Method {
 
+    public User getUser(String memberName, ArrayList<User> userList) {
+        for (User user : userList) {
+            if (user.getName().equals(memberName)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
 
     public void addBook(String title, String author, String description, boolean available, ArrayList<Book> list) {
         list.add(new Book(title, author, description, true));
@@ -46,14 +55,7 @@ public class Method {
     }
 
 
-    public User getUser(String memberName, ArrayList<User> userList) {
-        for (User user : userList) {
-            if (user.getName().equals(memberName)) {
-                return user;
-            }
-        }
-        return null;
-    }
+
 
     public User findUserByName(String name, ArrayList<User> userList) {
         for (User user : userList) {
@@ -66,35 +68,26 @@ public class Method {
     }
 
 
-    public void borrowBook(String memberName, String itemName, ArrayList<User> userList, ArrayList<Book> bookList) {
-        User user = getUser(memberName, userList);
-        if (user != null) {
-            for (Book book : bookList) {
-                if (book.getTitle().toLowerCase().contains(itemName) && book.isAvailable()) {
-                    user.addLoan(book);
-                    System.out.println(user.getName() + " borrowed the book : " + book.getTitle());
-                    return;
-                } else if (book.getTitle().toLowerCase().contains(itemName) && !book.isAvailable()) {
-                    System.out.println("The book is not available");
-                }
+    public void borrowBook(User user, String itemName, ArrayList<User> userList, ArrayList<Book> bookList) {
+        for (Book book : bookList) {
+            if (book.getTitle().toLowerCase().contains(itemName) && book.isAvailable()) {
+                user.addLoan(book);
+                System.out.println(user.getName() + " borrowed the book : " + book.getTitle());
+                return;
+            } else if (book.getTitle().toLowerCase().contains(itemName) && !book.isAvailable()) {
+                System.out.println("The book is not available");
             }
-            System.out.println("Couldn't find the book. Please try it again.");
         }
+        System.out.println("Couldn't find the book. Please try it again.");
     }
 
-    public void showUserLoans(String userName, ArrayList<User> userList) {
-        User user = getUser(userName, userList);
-        if (user != null) {
-            user.showBorrowedBooks();
-        }
+    public void showUserLoans(User user, ArrayList<User> userList) {
+        user.showBorrowedBooks();
     }
 
-    public void returnBook(String userName, String itemName, ArrayList<User> userList) {
-        User user = getUser(userName, userList);
-        if (user != null) {
-            if (user.returnBook(itemName)) {
-                System.out.println(user.getName() + " returned the item with title " + itemName);
-            }
+    public void returnBook(User user, String itemName, ArrayList<User> userList) {
+        if (user.returnBook(itemName)) {
+            System.out.println(user.getName() + " returned the item with title " + itemName);
         }
     }
 
