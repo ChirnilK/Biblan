@@ -1,12 +1,9 @@
 package com.company;
 
-import java.io.IOException;
+
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Library implements Serializable {
@@ -141,6 +138,20 @@ public class Library implements Serializable {
 
                         case 5:  //Show all library books
                             method.showAllBooks(books);
+                            System.out.println("");
+                            System.out.println("Would you like sort all books by title/ author?  t / a");
+                            String sortAnswer = user.nextLine();
+                            if(sortAnswer.equals("t")) {
+                                Collections.sort(books, new SortByTitle());
+                                method.showAllBooks(books);
+                            }
+                            else if (sortAnswer.equals("a")){
+                                Collections.sort(books, new SortByAuthor());
+                                method.showAllBooks(books);
+                            }
+                            else{
+                                System.out.println("Input t/a");
+                            }
                             break;
 
                         case 6:  //Search book
