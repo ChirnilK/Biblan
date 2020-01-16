@@ -1,8 +1,8 @@
 package com.company;
 
 public class Customer extends User {
-    public Customer(String name, String socialSecNumber) {
-        super(name, socialSecNumber);
+    public Customer(String name, String socialSecNumber, int password) {
+        super(name, socialSecNumber, password);
     }
 
     @Override

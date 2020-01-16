@@ -6,11 +6,18 @@ import java.util.ArrayList;
 public abstract class User implements Serializable {
     private String name;
     private String socialSecNumber;
+    private int password;
+
     ArrayList<Book> borrowedBooks = new ArrayList<>();
 
-    public User(String name, String socialSecNumber) {
+    public User(String name, String socialSecNumber, int password) {
         this.name = name;
         this.socialSecNumber = socialSecNumber;
+        this.password = password;
+    }
+
+    public int getPassword() {
+        return password;
     }
 
     public String getName() {

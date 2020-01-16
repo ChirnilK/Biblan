@@ -17,8 +17,8 @@ public class Method {
         userList.add(new Librarian(name, secNumber, password));
     }
 
-    public void addCustomer(String name, String secNumber, ArrayList<User> userList) {
-        userList.add(new Customer(name, secNumber));
+    public void addCustomer(String name, String secNumber, int password, ArrayList<User> userList) {
+        userList.add(new Customer(name, secNumber, password));
     }
 
     public void showAllBooks(ArrayList<Book> list) {
@@ -52,8 +52,16 @@ public class Method {
                 return user;
             }
         }
-        System.out.println("can't find your name in the list.");
-        System.out.println("Please contact librarian");
+        return null;
+    }
+
+    public User findUserByName(String name, ArrayList<User> userList) {
+        for (User user : userList) {
+            if (user.getName().toLowerCase().contains(name.toLowerCase())) {
+                user.userInfor();
+                return user;
+            }
+        }
         return null;
     }
 
@@ -62,14 +70,15 @@ public class Method {
         User user = getUser(memberName, userList);
         if (user != null) {
             for (Book book : bookList) {
-                if (book.getTitle().equals(itemName) && book.isAvailable()) {
+                if (book.getTitle().toLowerCase().contains(itemName) && book.isAvailable()) {
                     user.addLoan(book);
-                    System.out.println(user.getName() + " borrowed the book : " + itemName);
+                    System.out.println(user.getName() + " borrowed the book : " + book.getTitle());
                     return;
-                } else if (book.getTitle().equals(itemName) && !book.isAvailable()) {
+                } else if (book.getTitle().toLowerCase().contains(itemName) && !book.isAvailable()) {
                     System.out.println("The book is not available");
                 }
             }
+            System.out.println("Couldn't find the book. Please try it again.");
         }
     }
 
@@ -111,16 +120,7 @@ public class Method {
         return null;
     }
 
-    public User findUserByName(String name, ArrayList<User> userList) {
-        for (User user : userList) {
-            if (user.getName().toLowerCase().contains(name.toLowerCase())) {
-                user.userInfor();
-                return user;
-            }
-        }
-        System.out.println("can't find");
-        return null;
-    }
+
 
     public void removeBook(Book book, ArrayList<Book> bookList) {
         bookList.remove(book);

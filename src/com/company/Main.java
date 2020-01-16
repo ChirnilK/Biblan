@@ -14,9 +14,9 @@ public class Main {
         library.method.addLibrarian("Johan", "841123-8976", 1111, library.getUsers());
         library.method.addLibrarian("Maria", "720304-2345", 2222, library.getUsers());
         library.method.addLibrarian("Sari", "000405-1112", 3333, library.getUsers());
-        library.method.addCustomer("Tary", "011102-4785", library.getUsers());
-        library.method.addCustomer("Pontos", "811218-3911", library.getUsers());
-        library.method.addCustomer("Kai", "880713-6840", library.getUsers());
+        library.method.addCustomer("Tary", "011102-4785", 4444, library.getUsers());
+        library.method.addCustomer("Pontos", "811218-3911",5555, library.getUsers());
+        library.method.addCustomer("Kai", "880713-6840", 6666, library.getUsers());
 
         library.start();
 

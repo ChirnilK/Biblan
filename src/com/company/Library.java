@@ -52,16 +52,15 @@ public class Library implements Serializable {
                         case 2:   //Add user
                             System.out.println("Input the user name");
                             String name = librarian.nextLine();
-                            System.out.println("Input the socialSecNumber");
+                            System.out.println("Input the socialSecNumber and password");
                             String secNumber = librarian.nextLine();
+                            int password = librarian.nextInt();
                             System.out.println("Is the user Librarian/Customer? Anser with l/c");
                             String category = librarian.nextLine();
                             if (category.equals("l")) {
-                                System.out.println("Input password");
-                                int password = librarian.nextInt();
                                 method.addLibrarian(name, secNumber, password, users);
                             } else if (category.equals("c")) {
-                                method.addCustomer(name, secNumber, users);
+                                method.addCustomer(name, secNumber, password, users);
                             } else {
                                 System.out.println("Input l or c");
                             }
@@ -116,96 +115,92 @@ public class Library implements Serializable {
                     break;
 
                 case "2":  //Customer
-                    customerMenu();
                     Scanner user = new Scanner(System.in);
-                    int userChoice = Integer.parseInt(user.nextLine());
-                    switch (userChoice) {
-                        case 1:    //Borrow book
-                            System.out.println("What is your name?");
-                            String userName1 = user.nextLine();
-                            method.onlyAvailableBooks(books);
-                            System.out.println("What would you like to borrow?");
-                            String borrow = user.nextLine();
-                            method.borrowBook(userName1, borrow, users, books);
-                            break;
+                    System.out.println("Input your name and password, please");
+                    String userInputName = user.nextLine();
+                    int userInputPassword = Integer.parseInt(user.nextLine());
+                    User user1 = method.getUser(userInputName, users);
+                    if (user1!=null && user1.getPassword()==userInputPassword) {
+                        customerMenu();
+                        int userChoice = Integer.parseInt(user.nextLine());
+                        switch (userChoice) {
+                            case 1:    //Borrow book
+                                method.onlyAvailableBooks(books);
+                                System.out.println("What would you like to borrow?");
+                                String borrow = user.nextLine();
+                                method.borrowBook(userInputName, borrow, users, books);
+                                break;
 
-                        case 2:   //Return book
-                            System.out.println("What is your name?");
-                            String userName2 = user.nextLine();
-                            method.showUserLoans(userName2, users);
-                            System.out.println("Which one would you like to return?");
-                            String returnItem = user.nextLine();
-                            method.returnBook(userName2, returnItem, users);
-                            break;
+                            case 2:   //Return book
+                                method.showUserLoans(userInputName, users);
+                                System.out.println("Which one would you like to return?");
+                                String returnItem = user.nextLine();
+                                method.returnBook(userInputName, returnItem, users);
+                                break;
 
-                        case 3:  //Show user's borrowed items
-                            System.out.println("What is your name?");
-                            String userName3 = user.nextLine();
-                            method.showUserLoans(userName3, users);
-                            break;
+                            case 3:  //Show user's borrowed items
+                                method.showUserLoans(userInputName, users);
+                                break;
 
-                        case 4:  //Show all available books
-                            method.onlyAvailableBooks(books);
-                            break;
+                            case 4:  //Show all available books
+                                method.onlyAvailableBooks(books);
+                                break;
 
 
-                        case 5:  //Show all library books
-                            method.showAllBooks(books);
-                            System.out.println("");
-                            System.out.println("Would you like sort these books by title/ author?  t / a");
-                            String sortAnswer = user.nextLine();
-                            if(sortAnswer.equals("t")) {
-                                Collections.sort(books, new SortByTitle());
+                            case 5:  //Show all library books
                                 method.showAllBooks(books);
-                            }
-                            else if (sortAnswer.equals("a")){
-                                Collections.sort(books, new SortByAuthor());
-                                method.showAllBooks(books);
-                            }
-                            else{
-                                System.out.println("Input t/a");
-                            }
-                            break;
-
-                        case 6:  //Search book
-                            System.out.println("Search by book title / author name?  Enter t / a ");
-                            String search = user.nextLine();
-                            if (search.equals("t")) {
-                                System.out.println("What is the book title?");
-                                String searchTitle = user.nextLine();
-                                Book book = method.findBookByTitle(searchTitle, books);
-                                if (book != null) {
-                                    System.out.println("Would you like to borrow the book?  y/n");
-                                    String answer = user.nextLine();
-                                    if (answer.equals("y")) {
-                                        System.out.println("What is your name?");
-                                        String userName4 = user.nextLine();
-                                        method.borrowBook(userName4, book.getTitle(), users, books);
-                                    } else if (answer.equals("n")) {
-                                        break;
-                                    }
-                                }
-                            } else if (search.equals("a")) {
-                                System.out.println("What is the Author name?");
-                                String searchAuthor = user.nextLine();
-                                Book book = method.findBookByAuthor(searchAuthor, books);
-                                if (book != null) {
-                                    System.out.println("Would you like to borrow the book?  y/n");
-                                    String answer = user.nextLine();
-                                    if (answer.equals("y")) {
-                                        System.out.println("What is your name?");
-                                        String userName4 = user.nextLine();
-                                        method.borrowBook(userName4, book.getTitle(), users, books);
-                                    } else if (answer.equals("n")) {
-                                        break;
-                                    }
+                                System.out.println("");
+                                System.out.println("Would you like sort these books by title/ author?  t / a");
+                                String sortAnswer = user.nextLine();
+                                if (sortAnswer.equals("t")) {
+                                    Collections.sort(books, new SortByTitle());
+                                    method.showAllBooks(books);
+                                } else if (sortAnswer.equals("a")) {
+                                    Collections.sort(books, new SortByAuthor());
+                                    method.showAllBooks(books);
                                 } else {
-                                    System.out.println("Enter 't' or 'a'");
+                                    System.out.println("Input t/a");
                                 }
-                            }
+                                break;
 
-                        case 9: //Quit
-                            break;
+                            case 6:  //Search book
+                                System.out.println("Search by book title / author name?  Enter t / a ");
+                                String search = user.nextLine();
+                                if (search.equals("t")) {
+                                    System.out.println("What is the book title?");
+                                    String searchTitle = user.nextLine();
+                                    Book book = method.findBookByTitle(searchTitle, books);
+                                    if (book != null) {
+                                        System.out.println("Would you like to borrow the book?  y/n");
+                                        String answer = user.nextLine();
+                                        if (answer.equals("y")) {
+                                            method.borrowBook(userInputName, book.getTitle(), users, books);
+                                        } else if (answer.equals("n")) {
+                                            break;
+                                        }
+                                    }
+                                } else if (search.equals("a")) {
+                                    System.out.println("What is the Author name?");
+                                    String searchAuthor = user.nextLine();
+                                    Book book = method.findBookByAuthor(searchAuthor, books);
+                                    if (book != null) {
+                                        System.out.println("Would you like to borrow the book?  y/n");
+                                        String answer = user.nextLine();
+                                        if (answer.equals("y")) {
+                                            method.borrowBook(userInputName, book.getTitle(), users, books);
+                                        } else if (answer.equals("n")) {
+                                            break;
+                                        }
+                                    } else {
+                                        System.out.println("Enter 't' or 'a'");
+                                    }
+                                }
+
+                            case 9: //Quit
+                                break;
+                        }
+                    }else{
+                        System.out.println("Loggin information is not correct. Please contact librarian");
                     }
                             break;
 
