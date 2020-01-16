@@ -2,6 +2,7 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 
 public class Method {
@@ -12,8 +13,8 @@ public class Method {
     }
 
 
-    public void addLibrarian(String name, String secNumber, ArrayList<User> userList) {
-        userList.add(new Librarian(name, secNumber));
+    public void addLibrarian(String name, String secNumber, int password, ArrayList<User> userList) {
+        userList.add(new Librarian(name, secNumber, password));
     }
 
     public void addCustomer(String name, String secNumber, ArrayList<User> userList) {
@@ -59,7 +60,7 @@ public class Method {
 
     public void borrowBook(String memberName, String itemName, ArrayList<User> userList, ArrayList<Book> bookList) {
         User user = getUser(memberName, userList);
-        if (user!=null){
+        if (user != null) {
             for (Book book : bookList) {
                 if (book.getTitle().equals(itemName) && book.isAvailable()) {
                     user.addLoan(book);
@@ -89,8 +90,8 @@ public class Method {
     }
 
     public Book findBookByTitle(String name, ArrayList<Book> bookList) {
-        for (Book book: bookList) {
-            if(book.getTitle().toLowerCase().contains(name.toLowerCase())){
+        for (Book book : bookList) {
+            if (book.getTitle().toLowerCase().contains(name.toLowerCase())) {
                 book.bookInfo();
                 return book;
             }
@@ -100,8 +101,8 @@ public class Method {
     }
 
     public Book findBookByAuthor(String name, ArrayList<Book> bookList) {
-        for (Book book: bookList) {
-            if(book.getAuthor().toLowerCase().contains(name.toLowerCase())){
+        for (Book book : bookList) {
+            if (book.getAuthor().toLowerCase().contains(name.toLowerCase())) {
                 book.bookInfo();
                 return book;
             }
@@ -111,8 +112,8 @@ public class Method {
     }
 
     public User findUserByName(String name, ArrayList<User> userList) {
-        for (User user: userList) {
-            if(user.getName().toLowerCase().contains(name.toLowerCase())){
+        for (User user : userList) {
+            if (user.getName().toLowerCase().contains(name.toLowerCase())) {
                 user.userInfor();
                 return user;
             }
@@ -121,17 +122,30 @@ public class Method {
         return null;
     }
 
-    public void removeBook(Book book, ArrayList<Book> bookList){
-            bookList.remove(book);
+    public void removeBook(Book book, ArrayList<Book> bookList) {
+        bookList.remove(book);
         System.out.printf("The book : '%s' is removed", book.getTitle());
-        }
+    }
 
-    public void removeUser(User user, ArrayList<User> userList){
+    public void removeUser(User user, ArrayList<User> userList) {
         userList.remove(user);
         System.out.printf("The user : '%s' is removed", user.getName());
     }
 
-
+    public boolean adminKonto(ArrayList<User> userList) {
+        Scanner admin = new Scanner(System.in);
+        System.out.println("Please input your name and password");
+        String name = admin.nextLine();
+        int pass = admin.nextInt();
+        for (User user : userList) {
+            if (user.getName().toLowerCase().contains(name.toLowerCase()) && user instanceof Librarian) {
+                if ((((Librarian) user).getPassword()) == pass) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
 
 
@@ -197,13 +211,6 @@ public class Method {
         }
     }
 
-    public void showAvailablePS3() {
-        for (LibraryItem item : libraryItems) {
-            if ((item.getAvailable() && item instanceof Game)) {
-                if (((Game) item).getConsoleType().equals(ConsoleType.PS3)) {
-                    System.out.println(item);
-                }
-            }
-        }
+
     }
 */

@@ -34,13 +34,19 @@ public class Library implements Serializable {
                     int librarianChoice = Integer.parseInt(librarian.nextLine());
                     switch (librarianChoice) {
                         case 1:   //Add book
-                            System.out.println("Input the book title");
-                            String title = librarian.nextLine();
-                            System.out.println("Input the book author");
-                            String author = librarian.nextLine();
-                            System.out.println("Input the description of the book");
-                            String description = librarian.nextLine();
-                            method.addBook(title, author, description, true, books);
+                            boolean admin1 = method.adminKonto(users);
+                            if(admin1) {
+                                System.out.println("Input the book title");
+                                String title = librarian.nextLine();
+                                System.out.println("Input the book author");
+                                String author = librarian.nextLine();
+                                System.out.println("Input the description of the book");
+                                String description = librarian.nextLine();
+                                method.addBook(title, author, description, true, books);
+                            }
+                            else{
+                                System.out.println("You don't have permission");
+                            }
                             break;
 
                         case 2:   //Add user
@@ -51,7 +57,9 @@ public class Library implements Serializable {
                             System.out.println("Is the user Librarian/Customer? Anser with l/c");
                             String category = librarian.nextLine();
                             if (category.equals("l")) {
-                                method.addLibrarian(name, secNumber, users);
+                                System.out.println("Input password");
+                                int password = librarian.nextInt();
+                                method.addLibrarian(name, secNumber, password, users);
                             } else if (category.equals("c")) {
                                 method.addCustomer(name, secNumber, users);
                             } else {
@@ -68,17 +76,22 @@ public class Library implements Serializable {
                             break;
 
                         case 5: //Remove book
-                            System.out.println("Which book do you want to remove from the list");
-                            method.showAllBooks(books);
-                            String removeBook = librarian.nextLine();
-                            Book book = method.findBookByTitle(removeBook, books);
-                            System.out.println("Whould you like to remove this book?  y/n");
-                            String answer = librarian.nextLine();
-                            if (answer.equals("y")) {
-                                method.removeBook(book, books);
+                            boolean admin2 = method.adminKonto(users);
+                            if(admin2) {
+                                System.out.println("Which book do you want to remove from the list");
+                                method.showAllBooks(books);
+                                String removeBook = librarian.nextLine();
+                                Book book = method.findBookByTitle(removeBook, books);
+                                System.out.println("Whould you like to remove this book?  y/n");
+                                String answer = librarian.nextLine();
+                                if (answer.equals("y")) {
+                                    method.removeBook(book, books);
+                                } else if (answer.equals("n")) {
+                                    break;
+                                }
                             }
-                            else if (answer.equals("n")) {
-                                break;
+                            else{
+                                System.out.println("You don't have permission");
                             }
                             break;
 
@@ -139,7 +152,7 @@ public class Library implements Serializable {
                         case 5:  //Show all library books
                             method.showAllBooks(books);
                             System.out.println("");
-                            System.out.println("Would you like sort all books by title/ author?  t / a");
+                            System.out.println("Would you like sort these books by title/ author?  t / a");
                             String sortAnswer = user.nextLine();
                             if(sortAnswer.equals("t")) {
                                 Collections.sort(books, new SortByTitle());
@@ -224,6 +237,8 @@ public class Library implements Serializable {
             System.out.println("4 : Show all users");
             System.out.println("5 : Remove book");
             System.out.println("6 : Remove user");
+            System.out.println("7 : Search book");
+            System.out.println("8 : Search user");
             System.out.println("9 : Quit");
             System.out.println("--------------------");
         }

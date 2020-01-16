@@ -10,14 +10,13 @@ public class Main {
         library.method.addBook("Calculus 1", "ggg", "gewr", true, library.getBooks());
         library.method.addBook("aa", "aaa", "gewreer", true, library.getBooks());
         library.method.addBook("bb", "bbb", "gewaser", true, library.getBooks());
-        FileUtils.saveObject("books.ser", library.getBooks());
 
-        library.method.addLibrarian("Johan", "070-3343333", library.getUsers());
-        library.method.addLibrarian("Maria", "070-3348877", library.getUsers());
-        library.method.addLibrarian("Sari", "070-3378393", library.getUsers());
-        library.method.addCustomer("Tary", "070-3343333", library.getUsers());
-        library.method.addCustomer("Pontos", "070-3348877", library.getUsers());
-        library.method.addCustomer("Kai", "070-3378393", library.getUsers());
+        library.method.addLibrarian("Johan", "841123-8976", 1111, library.getUsers());
+        library.method.addLibrarian("Maria", "720304-2345", 2222, library.getUsers());
+        library.method.addLibrarian("Sari", "000405-1112", 3333, library.getUsers());
+        library.method.addCustomer("Tary", "011102-4785", library.getUsers());
+        library.method.addCustomer("Pontos", "811218-3911", library.getUsers());
+        library.method.addCustomer("Kai", "880713-6840", library.getUsers());
 
         library.start();
 

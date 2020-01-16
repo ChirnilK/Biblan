@@ -1,8 +1,15 @@
 package com.company;
 
 public class Librarian extends User {
-    public Librarian(String name, String socialSecNumber) {
+    private int password;
+
+    public Librarian(String name, String socialSecNumber, int password) {
         super(name, socialSecNumber);
+        this.password = password;
+    }
+
+    public int getPassword() {
+        return password;
     }
 
     @Override
