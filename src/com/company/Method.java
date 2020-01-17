@@ -110,13 +110,23 @@ public class Method {
 
     //borrow book by book title(partial string)
     public void borrowBook(User user, String itemName, ArrayList<Book> bookList) {
+        Scanner sc = new Scanner(System.in);
         for (Book book : bookList) {
             if (book.getTitle().toLowerCase().contains(itemName.toLowerCase()) && book.isAvailable()) {
-                user.addLoan(book);
-                System.out.println(user.getName() + " borrowed the book : " + book.getTitle());
-                return;
+                book.bookInfo();
+                System.out.println("Do you want to borrow this book?  y/n");
+                String answer = sc.nextLine();
+                if(answer.equals("y")) {
+                    user.addLoan(book);
+                    System.out.println(user.getName() + " borrowed the book : " + book.getTitle());
+                    return;
+                }else if(answer.equals("n")){
+                    System.out.println("See you!");
+                    return;
+                }
             } else if (book.getTitle().toLowerCase().contains(itemName.toLowerCase()) && !book.isAvailable()) {
                 System.out.println("The book is not available");
+                return;
             }
         }
         System.out.println("Couldn't find the book. Please try it again.");
@@ -137,10 +147,11 @@ public class Method {
     //return book
     public void returnBook(User user, String itemName) {
         if (user.returnBook(itemName)) {
-            System.out.println(user.getName() + " successfully returned the book");
+            System.out.printf("%s successfully returned the book : %s",user.getName(), itemName);
         }
     }
 
+    //find a book by book title(partial string ok). return Book
     public Book findBookByTitle(String name, ArrayList<Book> bookList) {
         for (Book book : bookList) {
             if (book.getTitle().toLowerCase().contains(name.toLowerCase())) {
@@ -148,10 +159,11 @@ public class Method {
                 return book;
             }
         }
-        System.out.println("can't find");
+        System.out.println("can't find any");
         return null;
     }
 
+    //find a book by author(partial string ok). return Book.
     public Book findBookByAuthor(String name, ArrayList<Book> bookList) {
         for (Book book : bookList) {
             if (book.getAuthor().toLowerCase().contains(name.toLowerCase())) {
@@ -159,7 +171,7 @@ public class Method {
                 return book;
             }
         }
-        System.out.println("can't find");
+        System.out.println("can't find any");
         return null;
     }
 

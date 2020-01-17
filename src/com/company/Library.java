@@ -160,7 +160,7 @@ public class Library implements Serializable {
         int userChoice = Integer.parseInt(cust.nextLine());
         switch (userChoice) {
             case 1:    //Borrow book
-                method.onlyAvailableBooks(books);
+                method.showAllBooks(books);
                 System.out.println("Which book would you like to borrow?");
                 String borrowB = cust.nextLine();
                 method.borrowBook(user, borrowB, books);
@@ -169,9 +169,10 @@ public class Library implements Serializable {
             case 2:   //Return book
                 boolean loan = method.showUserLoans(user);
                 if (loan){
-                    System.out.println("Which one would you like to return?");
+                    System.out.println("Which book would you like to return?");
                     String returnItem = cust.nextLine();
-                    method.returnBook(user, returnItem);}
+                    Book book = method.findBookByTitle(returnItem, books);
+                    method.returnBook(user, book.getTitle());}
                 break;
 
             case 3:  //Show user's borrowed items
@@ -210,11 +211,12 @@ public class Library implements Serializable {
 
     private void meinMenu() {
         System.out.println("");
-        System.out.println("--------------------");
-        System.out.println("Librarian : Enter '1'");
-        System.out.println("Customer  : Enter '2'");
+        System.out.println("------------------------------------------");
+        System.out.println("Go to");
+        System.out.println("Librarian menu : Enter '1' (admin)");
+        System.out.println("Customer  menu : Enter '2'");
         System.out.println("Quit      : Enter 11");
-        System.out.println("--------------------");
+        System.out.println("------------------------------------------");
     }
 
     private void librarianMenu() {
