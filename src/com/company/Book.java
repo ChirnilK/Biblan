@@ -13,7 +13,7 @@ public class Book implements Serializable {
         this.title = title;
         this.author = author;
         this.description = description;
-        this.available = true;
+        this.available = available;
     }
 
     public String getTitle() {
@@ -24,6 +24,10 @@ public class Book implements Serializable {
         return author;
     }
 
+    public String getDescription() {
+        return "The Book description {"+ description + "}";
+    }
+
     public boolean isAvailable() {
         return available;
     }
@@ -32,8 +36,7 @@ public class Book implements Serializable {
         this.available = available;
     }
 
-    public void bookInfo(){
-        System.out.printf("Book title : %s, Author: %s, Description : %s, Available %s:\n", title, author,description,available);
+    public void bookInfo() {
+        System.out.printf("Book title : %s, Author: %s, Available %s:\n", title, author, available);
     }
-
 }

@@ -103,9 +103,9 @@ public class Method {
                 }
             }
         } else {
-                System.out.println("Enter 't' or 'a'");
-            }
+            System.out.println("Enter 't' or 'a'");
         }
+    }
 
 
     //borrow book by book title(partial string)
@@ -116,11 +116,11 @@ public class Method {
                 book.bookInfo();
                 System.out.println("Do you want to borrow this book?  y/n");
                 String answer = sc.nextLine();
-                if(answer.equals("y")) {
+                if (answer.equals("y")) {
                     user.addLoan(book);
                     System.out.println(user.getName() + " borrowed the book : " + book.getTitle());
                     return;
-                }else if(answer.equals("n")){
+                } else if (answer.equals("n")) {
                     System.out.println("See you!");
                     return;
                 }
@@ -136,7 +136,7 @@ public class Method {
     public boolean showUserLoans(User user) {
         System.out.printf("Information of %s's loan :\n", user.getName());
         boolean loan = user.isThereLoan();
-        if (loan){
+        if (loan) {
             user.showBorrowedBooks();
             return true;
         }
@@ -147,7 +147,7 @@ public class Method {
     //return book
     public void returnBook(User user, String itemName) {
         if (user.returnBook(itemName)) {
-            System.out.printf("%s successfully returned the book : %s",user.getName(), itemName);
+            System.out.printf("%s successfully returned the book : %s", user.getName(), itemName);
         }
     }
 
@@ -176,7 +176,6 @@ public class Method {
     }
 
 
-
     public void removeBook(Book book, ArrayList<Book> bookList) {
         bookList.remove(book);
         System.out.printf("The book : '%s' is removed", book.getTitle());
@@ -187,85 +186,8 @@ public class Method {
         System.out.printf("The user : '%s' is removed", user.getName());
     }
 
-    public boolean adminKonto(ArrayList<User> userList) {
-        Scanner admin = new Scanner(System.in);
-        System.out.println("Please input your name and password");
-        String name = admin.nextLine();
-        int pass = admin.nextInt();
-        for (User user : userList) {
-            if (user.getName().toLowerCase().contains(name.toLowerCase()) && user instanceof Librarian) {
-                if ((((Librarian) user).getPassword()) == pass) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    public void bookDescription(Book book){
+        System.out.println(book.getDescription());
     }
+
 }
-
-
-
-
-
-
-/*
-
-
-
-    public Member getMember(String memberName) {
-        for (Member member : members) {
-            if (member.getName().equals(memberName)) {
-                return member;
-            }
-        }
-        return null;
-    }
-
-
-    public void borrowLibraryItem(String memberName, String itemName) {
-        Member member = getMember(memberName);
-        for (LibraryItem item : libraryItems) {
-            if (item.getTitle().equals(itemName) && item.getAvailable()) {
-                member.addLoan(item);
-                System.out.println(member.getName() + " borrowed the item with title " + itemName);
-                return;
-            }
-        }
-        System.out.println("We don't have such item");
-    }
-
-    public void returnLibraryItem(String memberName, String itemName) {
-        Member member = getMember(memberName);
-        if (member != null) {
-            if (member.returnLoan(itemName)) {
-                System.out.println(member.getName() + " returned the item with title " + itemName);
-            }
-        }
-    }
-
-    public void showMemberLoans(String memberName) {
-        Member member = getMember(memberName);
-        if (member != null) {
-            member.showBorrowedLibraryItems();
-        }
-    }
-
-    private void showAllLibraryLoans() {
-        for (Member member : members) {
-            System.out.println(member.getName() + ":");
-            showMemberLoans(member.getName());
-
-        }
-    }
-
-    public void showAvailableGames() {
-        for (LibraryItem item : libraryItems) {
-            if ((item.getAvailable() && item instanceof Game)) {
-                System.out.println(item);
-            }
-        }
-    }
-
-
-    }
-*/

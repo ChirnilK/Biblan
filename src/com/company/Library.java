@@ -13,10 +13,11 @@ public class Library implements Serializable {
 
     public Library(){
 
-        method.addBook("Discrete mathematics", "hhh", "ddd", true, books);
-        method.addBook("Fourier transform", "fff", "here", true, books);
+        method.addBook("Discrete mathematics", "hhh", "Discrete mathematics is the study of mathematical structures that are fundamentally discrete rather than continuous. In contrast to real numbers that have the property of varying \"smoothly\", the objects studied in discrete mathematics – such as integers, graphs, and statements in logic[1] – do not vary smoothly in this way, but have distinct, separated values.", true, books);
+        method.addBook("Fourier transform", "fff", "The Fourier transform (FT) decomposes a function of time (a signal) into its constituent frequencies. ", true, books);
         method.addBook("Calculus 1", "ggg", "gewr", true, books);
-        method.addBook("aa", "aaa", "gewreer", true, books);
+        method.addBook("Complex Analysis", "Theodore W. Gamelin", "gewreer", true, books);
+        method.addBook("aa", "aaaaa", "ddfdsdf", true, books);
         method.addBook("bb", "bbb", "gewaser", true, books);
 
         method.addLibrarian("Johan", "841123-8976", 1111, users);
@@ -186,17 +187,7 @@ public class Library implements Serializable {
             case 5:  //Show all library books
                 method.showAllBooks(books);
                 System.out.println("");
-                System.out.println("Would you like sort these books by title/ author?  t / a");
-                String sortAnswer = cust.nextLine();
-                if (sortAnswer.equals("t")) {
-                    Collections.sort(books, new SortByTitle());
-                    method.showAllBooks(books);
-                } else if (sortAnswer.equals("a")) {
-                    Collections.sort(books, new SortByAuthor());
-                    method.showAllBooks(books);
-                } else {
-                    System.out.println("Input t/a");
-                }
+                bookInforMenu ();
                 break;
 
             case 6:  //Search book
@@ -268,6 +259,27 @@ public class Library implements Serializable {
         }
         return false;
     }
+
+    private void bookInforMenu (){
+        System.out.println("-----Book info menu-----");
+        System.out.println("Enter");
+        System.out.println("1 : Sort the book list by title");
+        System.out.println("2 : Sort the book list by author");
+        System.out.println("3 : Show more details of a book");
+        System.out.println("4 : Quit");
+    }
+    /*
+    System.out.println("Would you like sort these books by title/ author?  t / a");
+    String sortAnswer = cust.nextLine();
+                if (sortAnswer.equals("t")) {
+        Collections.sort(books, new SortByTitle());
+        method.showAllBooks(books);
+    } else if (sortAnswer.equals("a")) {
+        Collections.sort(books, new SortByAuthor());
+        method.showAllBooks(books);
+    } else {
+        System.out.println("Input t/a");
+    }*/
 }
 
 
