@@ -37,7 +37,7 @@ public abstract class User implements Serializable {
 
     public Boolean returnBook(String bookName) {
         for (Book book : borrowedBooks) {
-            if (book.getTitle().equals(bookName)) {
+            if (book.getTitle().toLowerCase().contains(bookName.toLowerCase())) {
                 borrowedBooks.remove(book);
                 book.setAvailable(true);
                 return true;
@@ -48,15 +48,17 @@ public abstract class User implements Serializable {
         return false;
     }
 
-    public void showBorrowedBooks() {
-        if (borrowedBooks.size() == 0) {
-            System.out.println("You haven't borrowed any book.");
+    public boolean isThereLoan(){
+        if(borrowedBooks.size()!=0){
+            return true;
         }
-        else {
-            for (Book borrowedbook : borrowedBooks) {
-                borrowedbook.bookInfo();
+        return false;
+    }
+
+    public void showBorrowedBooks() {
+        for (Book borrowedbook : borrowedBooks) {
+            borrowedbook.bookInfo();
             }
         }
-    }
 
 }

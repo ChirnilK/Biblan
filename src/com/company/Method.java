@@ -108,27 +108,36 @@ public class Method {
         }
 
 
-
+    //borrow book by book title(partial string)
     public void borrowBook(User user, String itemName, ArrayList<Book> bookList) {
         for (Book book : bookList) {
             if (book.getTitle().toLowerCase().contains(itemName.toLowerCase()) && book.isAvailable()) {
                 user.addLoan(book);
                 System.out.println(user.getName() + " borrowed the book : " + book.getTitle());
                 return;
-            } else if (book.getTitle().toLowerCase().contains(itemName) && !book.isAvailable()) {
+            } else if (book.getTitle().toLowerCase().contains(itemName.toLowerCase()) && !book.isAvailable()) {
                 System.out.println("The book is not available");
             }
         }
         System.out.println("Couldn't find the book. Please try it again.");
     }
 
-    public void showUserLoans(User user) {
-        user.showBorrowedBooks();
+    //show user's all loan. return true for there is loan. false for no loan.
+    public boolean showUserLoans(User user) {
+        System.out.printf("Information of %s's loan :\n", user.getName());
+        boolean loan = user.isThereLoan();
+        if (loan){
+            user.showBorrowedBooks();
+            return true;
+        }
+        System.out.println("You haven't borrowed any book.");
+        return false;
     }
 
+    //return book
     public void returnBook(User user, String itemName) {
         if (user.returnBook(itemName)) {
-            System.out.println(user.getName() + " returned the item with title " + itemName);
+            System.out.println(user.getName() + " successfully returned the book");
         }
     }
 

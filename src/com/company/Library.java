@@ -30,37 +30,43 @@ public class Library implements Serializable {
 
 
     public void start() {
-        User user = userLoggIn();
-        boolean loop = true;
-        while (loop) {
+        try {
+            User user = userLoggIn();
+            if (user != null) {
+                boolean loop = true;
+                while (loop) {
 
-            meinMenu();
-            Scanner scanner = new Scanner(System.in);
-            String whoUseSystem = scanner.nextLine();
-            switch (whoUseSystem) {
-                case "1": //Librarian
-                    boolean isUserLib = adminCheck(user);
-                    if (isUserLib) {
-                        librarianMenu();
-                        librarian();
-                    } else {
-                        System.out.println("You don't have permission.");
+                    meinMenu();
+                    Scanner scanner = new Scanner(System.in);
+                    String whoUseSystem = scanner.nextLine();
+                    switch (whoUseSystem) {
+                        case "1": //Librarian
+                            boolean isUserLib = adminCheck(user);
+                            if (isUserLib) {
+                                librarianMenu();
+                                librarian();
+                            } else {
+                                System.out.println("You don't have permission.");
+                            }
+                            break;
+
+                        case "2":
+                            customerMenu();
+                            customer(user);
+                            break;
+
+                        case "11":
+                            loop = false;
+                            break;
+
+                        default:
+                            System.out.println("To choose, enter either '1' or '2'");
+
                     }
-                    break;
-
-                case "2":
-                    customerMenu();
-                    customer(user);
-                    break;
-
-                case "11":
-                    loop = false;
-                    break;
-
-                default:
-                    System.out.println("To choose, enter either '1' or '2'");
-
+                }
             }
+        }catch(NullPointerException e){
+            System.out.println("Wrong username or password. Please contact to librarian");
         }
     }
 
@@ -161,10 +167,11 @@ public class Library implements Serializable {
                 break;
 
             case 2:   //Return book
-                method.showUserLoans(user);
-                System.out.println("Which one would you like to return?");
-                String returnItem = cust.nextLine();
-                method.returnBook(user, returnItem);
+                boolean loan = method.showUserLoans(user);
+                if (loan){
+                    System.out.println("Which one would you like to return?");
+                    String returnItem = cust.nextLine();
+                    method.returnBook(user, returnItem);}
                 break;
 
             case 3:  //Show user's borrowed items
@@ -211,7 +218,7 @@ public class Library implements Serializable {
     }
 
     private void librarianMenu() {
-        System.out.println("--------------------");
+        System.out.println("-----Librarian menu-----");
         System.out.println("Enter");
         System.out.println("1 : Add book");
         System.out.println("2 : Add user");
@@ -221,11 +228,11 @@ public class Library implements Serializable {
         System.out.println("6 : Remove user");
         System.out.println("7 : Search user");
         System.out.println("9 : Quit");
-        System.out.println("--------------------");
+        System.out.println("-----------------------");
     }
 
     private void customerMenu() {
-        System.out.println("--------------------");
+        System.out.println("-----Customer menu-----");
         System.out.println("Enter");
         System.out.println("1 : Borrow book");
         System.out.println("2 : Return book");
@@ -234,15 +241,16 @@ public class Library implements Serializable {
         System.out.println("5 : Show all library books");
         System.out.println("6 : Search book");
         System.out.println("9 : Quit");
-        System.out.println("--------------------");
+        System.out.println("-----------------------");
     }
 
     private User userLoggIn(){
         System.out.println("");
         System.out.println("---- Welcome to the Skåne library! ----");
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Input your name and password, please");
+        System.out.println("Input your name");
         String userInputName = scanner.nextLine();
+        System.out.println("Input password");
         int userInputPassword = Integer.parseInt(scanner.nextLine());
         User user = method.getUser(userInputName, users);
         if(user.getPassword()==userInputPassword) {
