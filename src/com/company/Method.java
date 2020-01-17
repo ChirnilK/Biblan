@@ -18,8 +18,8 @@ public class Method {
     }
 
     //add a book to list
-    public void addBook(String title, String author, String description, boolean available, ArrayList<Book> list) {
-        list.add(new Book(title, author, description, true));
+    public void addBook(String title, String author, String description, boolean available, ArrayList<Book> bookList) {
+        bookList.add(new Book(title, author, description, true));
     }
 
     //add a librarian to userList
@@ -33,17 +33,17 @@ public class Method {
     }
 
     //show all books in list. first save the list to a file named "books.ser" then load the file
-    public void showAllBooks(ArrayList<Book> list) {
-        FileUtils.saveObject("books.ser", list);
-        List<Book> list1 = (List) FileUtils.loadObject("books.ser");
-        for (Book book : list1) {
+    public void showAllBooks(ArrayList<Book> bookList) {
+        FileUtils.saveObject("books.ser", bookList);
+        List<Book> list = (List) FileUtils.loadObject("books.ser");
+        for (Book book : list) {
             book.bookInfo();
         }
     }
 
     //show all users in list. first save the list to a file named "users.ser" then load the file
-    public void showAllUsers(ArrayList<User> list) {
-        FileUtils.saveObject("users.ser", list);
+    public void showAllUsers(ArrayList<User> userList) {
+        FileUtils.saveObject("users.ser", userList);
         List<User> list1 = (List) FileUtils.loadObject("users.ser");
         for (User user : list1) {
             user.userInfor();
@@ -51,8 +51,8 @@ public class Method {
     }
 
     //show only available books in list
-    public void onlyAvailableBooks(ArrayList<Book> list) {
-        for (Book book : list) {
+    public void onlyAvailableBooks(ArrayList<Book> bookList) {
+        for (Book book : bookList) {
             if ((book.isAvailable())) {
                 book.bookInfo();
             }
