@@ -35,17 +35,9 @@ public abstract class User implements Serializable {
         book.setAvailable(false);
     }
 
-    public Boolean returnBook(String bookName) {
-        for (Book book : borrowedBooks) {
-            if (book.getTitle().toLowerCase().contains(bookName.toLowerCase())) {
-                borrowedBooks.remove(book);
-                book.setAvailable(true);
-                return true;
-            } else {
-                System.out.println("We don't have such book");
-            }
-        }
-        return false;
+    public void returnBook(Book book) {
+        borrowedBooks.remove(book);
+        book.setAvailable(true);
     }
 
     public boolean isThereLoan(){

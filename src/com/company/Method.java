@@ -84,7 +84,7 @@ public class Method {
                 System.out.println("Would you like to borrow the book?  y/n");
                 String answer = scanner.nextLine();
                 if (answer.equals("y")) {
-                    borrowBook(user, book.getTitle(), bookList);
+                    borrowBook(user, book);
                 } else if (answer.equals("n")) {
                     System.out.println("See you!");
                 }
@@ -97,7 +97,7 @@ public class Method {
                 System.out.println("Would you like to borrow the book?  y/n");
                 String answer = scanner.nextLine();
                 if (answer.equals("y")) {
-                    borrowBook(user, book.getTitle(), bookList);
+                    borrowBook(user, book);
                 } else if (answer.equals("n")) {
                     System.out.println("See you!");
                 }
@@ -109,27 +109,23 @@ public class Method {
 
 
     //borrow book by book title(partial string)
-    public void borrowBook(User user, String itemName, ArrayList<Book> bookList) {
+    public void borrowBook(User user, Book book) {
         Scanner sc = new Scanner(System.in);
-        for (Book book : bookList) {
-            if (book.getTitle().toLowerCase().contains(itemName.toLowerCase()) && book.isAvailable()) {
-                book.bookInfo();
-                System.out.println("Do you want to borrow this book?  y/n");
-                String answer = sc.nextLine();
-                if (answer.equals("y")) {
-                    user.addLoan(book);
-                    System.out.println(user.getName() + " borrowed the book : " + book.getTitle());
-                    return;
-                } else if (answer.equals("n")) {
-                    System.out.println("See you!");
-                    return;
-                }
-            } else if (book.getTitle().toLowerCase().contains(itemName.toLowerCase()) && !book.isAvailable()) {
-                System.out.println("The book is not available");
+        if (book.isAvailable()) {
+            System.out.println("Do you want to borrow this book?  y/n");
+            String answer = sc.nextLine();
+            if (answer.equals("y")) {
+                user.addLoan(book);
+                System.out.println(user.getName() + " borrowed the book : " + book.getTitle());
+                return;
+            } else if (answer.equals("n")) {
+                System.out.println("See you!");
                 return;
             }
+        } else {
+            System.out.println("The book is not available");
+            return;
         }
-        System.out.println("Couldn't find the book. Please try it again.");
     }
 
     //show user's all loan. return true for there is loan. false for no loan.
@@ -144,12 +140,6 @@ public class Method {
         return false;
     }
 
-    //return book
-    public void returnBook(User user, String itemName) {
-        if (user.returnBook(itemName)) {
-            System.out.printf("%s successfully returned the book : %s", user.getName(), itemName);
-        }
-    }
 
     //find a book by book title(partial string ok). return Book
     public Book findBookByTitle(String name, ArrayList<Book> bookList) {

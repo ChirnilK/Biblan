@@ -168,7 +168,10 @@ public class Library implements Serializable {
                     method.showAllBooks(books);
                     System.out.println("Which book would you like to borrow?");
                     String borrowB = cust.nextLine();
-                    method.borrowBook(user, borrowB, books);
+                    Book bok = method.findBookByTitle(borrowB,books);
+                    if (bok!=null){
+                        method.borrowBook(user, bok);
+                    }
                     break;
 
                 case 2:   //Return book
@@ -177,7 +180,10 @@ public class Library implements Serializable {
                         System.out.println("Which book would you like to return?");
                         String returnItem = cust.nextLine();
                         Book book = method.findBookByTitle(returnItem, books);
-                        method.returnBook(user, book.getTitle());
+                        if (book != null) {
+                            user.returnBook(book);
+                            System.out.printf("%s successfully returned the book : %s", user.getName(), book.getTitle());
+                        }
                     }
                     break;
 
