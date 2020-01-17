@@ -65,7 +65,7 @@ public class Library implements Serializable {
     }
 
 
-    public void librarian() {
+    private void librarian() {
 
         Scanner librarian = new Scanner(System.in);
         int librarianChoice = Integer.parseInt(librarian.nextLine());
@@ -81,18 +81,23 @@ public class Library implements Serializable {
                 break;
 
             case 2:   //Add user
-                System.out.println("Input the user name");
-                String name = librarian.nextLine();
-                System.out.println("Input the socialSecNumber and password");
-                String secNumber = librarian.nextLine();
-                int password = librarian.nextInt();
-                System.out.println("Is the user Librarian/Customer? Anser with l/c");
+                System.out.println("Is the user Librarian/Customer? Input l/c");
                 String category = librarian.nextLine();
-                if (category.equals("l")) {
-                    method.addLibrarian(name, secNumber, password, users);
-                } else if (category.equals("c")) {
-                    method.addCustomer(name, secNumber, password, users);
-                } else {
+                if(category.equals("l")||category.equals("c")) {
+                    System.out.println("Input the user name");
+                    String name = librarian.nextLine();
+                    System.out.println("Input the socialSecNumber");
+                    String secNumber = librarian.nextLine();
+                    System.out.println("Input password");
+                    int password = librarian.nextInt();
+
+                    if (category.equals("l")) {
+                        method.addLibrarian(name, secNumber, password, users);
+                    } else {
+                        method.addCustomer(name, secNumber, password, users);
+                    }
+                }
+                else{
                     System.out.println("Input l or c");
                 }
                 break;
@@ -132,12 +137,19 @@ public class Library implements Serializable {
                     break;
                 }
                 break;
+
+            case 7: //Search user
+                System.out.println("Search word?");
+                String searchWord = librarian.nextLine();
+                method.findUserByName(searchWord, users);
+                break;
+
             case 9:  //Quit
                 break;
         }
     }
 
-    public void customer(User user){
+    private void customer(User user){
         Scanner cust = new Scanner(System.in);
         int userChoice = Integer.parseInt(cust.nextLine());
         switch (userChoice) {
@@ -145,18 +157,18 @@ public class Library implements Serializable {
                 method.onlyAvailableBooks(books);
                 System.out.println("Which book would you like to borrow?");
                 String borrowB = cust.nextLine();
-                method.borrowBook(user, borrowB, users, books);
+                method.borrowBook(user, borrowB, books);
                 break;
 
             case 2:   //Return book
-                method.showUserLoans(user, users);
+                method.showUserLoans(user);
                 System.out.println("Which one would you like to return?");
                 String returnItem = cust.nextLine();
-                method.returnBook(user, returnItem, users);
+                method.returnBook(user, returnItem);
                 break;
 
             case 3:  //Show user's borrowed items
-                method.showUserLoans(user, users);
+                method.showUserLoans(user);
                 break;
 
             case 4:  //Show all available books
@@ -180,37 +192,8 @@ public class Library implements Serializable {
                 break;
 
             case 6:  //Search book
-                System.out.println("Search by book title / author name?  Enter t / a ");
-                String search = cust.nextLine();
-                if (search.equals("t")) {
-                    System.out.println("What is the book title?");
-                    String searchTitle = cust.nextLine();
-                    Book book = method.findBookByTitle(searchTitle, books);
-                    if (book != null) {
-                        System.out.println("Would you like to borrow the book?  y/n");
-                        String answer = cust.nextLine();
-                        if (answer.equals("y")) {
-                            method.borrowBook(user, book.getTitle(), users, books);
-                        } else if (answer.equals("n")) {
-                            break;
-                        }
-                    }
-                } else if (search.equals("a")) {
-                    System.out.println("What is the Author name?");
-                    String searchAuthor = cust.nextLine();
-                    Book book = method.findBookByAuthor(searchAuthor, books);
-                    if (book != null) {
-                        System.out.println("Would you like to borrow the book?  y/n");
-                        String answer = cust.nextLine();
-                        if (answer.equals("y")) {
-                            method.borrowBook(user, book.getTitle(), users, books);
-                        } else if (answer.equals("n")) {
-                            break;
-                        }
-                    } else {
-                        System.out.println("Enter 't' or 'a'");
-                    }
-                }
+                method.searchBook(user, books);
+                break;
 
             case 9: //Quit
                 break;
@@ -218,7 +201,7 @@ public class Library implements Serializable {
     }
 
 
-    public void meinMenu () {
+    private void meinMenu() {
         System.out.println("");
         System.out.println("--------------------");
         System.out.println("Librarian : Enter '1'");
@@ -227,7 +210,7 @@ public class Library implements Serializable {
         System.out.println("--------------------");
     }
 
-    public void librarianMenu () {
+    private void librarianMenu() {
         System.out.println("--------------------");
         System.out.println("Enter");
         System.out.println("1 : Add book");
@@ -236,18 +219,17 @@ public class Library implements Serializable {
         System.out.println("4 : Show all users");
         System.out.println("5 : Remove book");
         System.out.println("6 : Remove user");
-        System.out.println("7 : Search book");
-        System.out.println("8 : Search user");
+        System.out.println("7 : Search user");
         System.out.println("9 : Quit");
         System.out.println("--------------------");
     }
 
-    public void customerMenu () {
+    private void customerMenu() {
         System.out.println("--------------------");
         System.out.println("Enter");
         System.out.println("1 : Borrow book");
         System.out.println("2 : Return book");
-        System.out.println("3 : Show your borrowed items");
+        System.out.println("3 : Show your borrowed books");
         System.out.println("4 : Show all available books");
         System.out.println("5 : Show all library books");
         System.out.println("6 : Search book");
@@ -255,7 +237,7 @@ public class Library implements Serializable {
         System.out.println("--------------------");
     }
 
-    public User userLoggIn(){
+    private User userLoggIn(){
         System.out.println("");
         System.out.println("---- Welcome to the Skåne library! ----");
         Scanner scanner = new Scanner(System.in);
@@ -270,7 +252,7 @@ public class Library implements Serializable {
         return null;
     }
 
-    public boolean adminCheck(User user) {
+    private boolean adminCheck(User user) {
         if (user instanceof Librarian) {
             return true;
         }
