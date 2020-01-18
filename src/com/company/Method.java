@@ -35,7 +35,7 @@ public class Method {
     //show all books in list. first save the list to a file named "books.ser" then load the file
     public void showAllBooks(ArrayList<Book> bookList) {
         FileUtils.saveObject("books.ser", bookList);
-        List<Book> list = (List) FileUtils.loadObject("books.ser");
+        ArrayList<Book> list = (ArrayList) FileUtils.loadObject("books.ser");
         for (Book book : list) {
             book.bookInfo();
         }
@@ -44,7 +44,7 @@ public class Method {
     //show all users in list. first save the list to a file named "users.ser" then load the file
     public void showAllUsers(ArrayList<User> userList) {
         FileUtils.saveObject("users.ser", userList);
-        List<User> list1 = (List) FileUtils.loadObject("users.ser");
+        ArrayList<User> list1 = (ArrayList) FileUtils.loadObject("users.ser");
         for (User user : list1) {
             user.userInfor();
         }

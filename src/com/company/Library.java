@@ -1,7 +1,11 @@
 package com.company;
 
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -11,26 +15,10 @@ public class Library implements Serializable {
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<Book> books = new ArrayList<>();
 
-    public Library(){
 
-        method.addBook("Discrete mathematics", "hhh", "Discrete mathematics is the study of mathematical structures that are fundamentally discrete rather than continuous. In contrast to real numbers that have the property of varying \"smoothly\", the objects studied in discrete mathematics – such as integers, graphs, and statements in logic[1] – do not vary smoothly in this way, but have distinct, separated values.", true, books);
-        method.addBook("Fourier transform", "fff", "The Fourier transform (FT) decomposes a function of time (a signal) into its constituent frequencies. ", true, books);
-        method.addBook("Calculus 1", "ggg", "gewr", true, books);
-        method.addBook("Complex Analysis", "Theodore W. Gamelin", "gewreer", true, books);
-        method.addBook("aa", "aaaaa", "ddfdsdf", true, books);
-        method.addBook("bb", "bbb", "gewaser", true, books);
+    public void start() throws IOException {
 
-        method.addLibrarian("Johan", "841123-8976", 1111, users);
-        method.addLibrarian("Maria", "720304-2345", 2222, users);
-        method.addLibrarian("Sari", "000405-1112", 3333, users);
-        method.addCustomer("Tary", "011102-4785", 4444, users);
-        method.addCustomer("Pontos", "811218-3911",5555, users);
-        method.addCustomer("Kai", "880713-6840", 6666, users);
-    }
-
-
-
-    public void start() {
+        loading("books", "users");
         try {
             User user = userLoggIn();
             if (user != null) {
@@ -64,7 +52,7 @@ public class Library implements Serializable {
                     }
                 }
             }
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Wrong username or password. Please contact to librarian");
         }
     }
@@ -72,7 +60,7 @@ public class Library implements Serializable {
 
     private void librarian() {
         boolean lib = true;
-        while(lib) {
+        while (lib) {
             librarianMenu();
             Scanner librarian = new Scanner(System.in);
             int librarianChoice = Integer.parseInt(librarian.nextLine());
@@ -152,7 +140,7 @@ public class Library implements Serializable {
 
                 case 8: //Show borrowed books by user
                     System.out.println("---List of borrowed books---");
-                    for(User libraryUser : users){
+                    for (User libraryUser : users) {
                         System.out.printf("User : %s \n", libraryUser.getName());
                         libraryUser.showBorrowedBooks();
                         System.out.println("");
@@ -160,15 +148,17 @@ public class Library implements Serializable {
                     break;
 
                 case 9:  //Quit
+                    FileUtils.saveObject("users.ser", users);
+                    FileUtils.saveObject("books.ser", books);
                     lib = false;
                     break;
             }
         }
     }
 
-    private void customer(User user){
+    private void customer(User user) {
         boolean cus = true;
-        while(cus) {
+        while (cus) {
             customerMenu();
             Scanner cust = new Scanner(System.in);
             int userChoice = Integer.parseInt(cust.nextLine());
@@ -177,8 +167,8 @@ public class Library implements Serializable {
                     method.showAllBooks(books);
                     System.out.println("Which book would you like to borrow?");
                     String borrowB = cust.nextLine();
-                    Book bok = method.findBookByTitle(borrowB,books);
-                    if (bok!=null){
+                    Book bok = method.findBookByTitle(borrowB, books);
+                    if (bok != null) {
                         method.borrowBook(user, bok);
                     }
                     break;
@@ -236,10 +226,29 @@ public class Library implements Serializable {
                     break;
 
                 case 9: //Quit
+                    FileUtils.saveObject("users.ser", users);
+                    FileUtils.saveObject("books.ser", books);
                     cus = false;
                     break;
             }
         }
+    }
+
+    private void originalData() {
+
+        method.addBook("Discrete mathematics", "hhh", "Discrete mathematics is the study of mathematical structures that are fundamentally discrete rather than continuous. In contrast to real numbers that have the property of varying \"smoothly\", the objects studied in discrete mathematics – such as integers, graphs, and statements in logic[1] – do not vary smoothly in this way, but have distinct, separated values.", true, books);
+        method.addBook("Fourier transform", "fff", "The Fourier transform (FT) decomposes a function of time (a signal) into its constituent frequencies. ", true, books);
+        method.addBook("Calculus 1", "ggg", "gewr", true, books);
+        method.addBook("Complex Analysis", "Theodore W. Gamelin", "gewreer", true, books);
+        method.addBook("aa", "aaaaa", "ddfdsdf", true, books);
+        method.addBook("bb", "bbb", "gewaser", true, books);
+
+        method.addLibrarian("Johan", "841123-8976", 1111, users);
+        method.addLibrarian("Maria", "720304-2345", 2222, users);
+        method.addLibrarian("Sari", "000405-1112", 3333, users);
+        method.addCustomer("Tary", "011102-4785", 4444, users);
+        method.addCustomer("Pontos", "811218-3911", 5555, users);
+        method.addCustomer("Kai", "880713-6840", 6666, users);
     }
 
 
@@ -283,7 +292,7 @@ public class Library implements Serializable {
         System.out.println("-----------------------");
     }
 
-    private User userLoggIn(){
+    private User userLoggIn() {
         System.out.println("");
         System.out.println("---- Welcome to the Skåne library! ----");
         Scanner scanner = new Scanner(System.in);
@@ -292,7 +301,7 @@ public class Library implements Serializable {
         System.out.println("Input password");
         int userInputPassword = Integer.parseInt(scanner.nextLine());
         User user = method.getUser(userInputName, users);
-        if(user.getPassword()==userInputPassword) {
+        if (user.getPassword() == userInputPassword) {
             System.out.printf("You are successfully logged in as %s ", user.getName());
             return user;
         }
@@ -307,7 +316,7 @@ public class Library implements Serializable {
         return false;
     }
 
-    private void bookInforMenu (){
+    private void bookInforMenu() {
         System.out.println("More over, would you like to ");
         System.out.println("");
         System.out.println("1 : Sort the book list by title");
@@ -316,15 +325,33 @@ public class Library implements Serializable {
         System.out.println("4 : Quit");
         System.out.println("Enter a number");
     }
+
+    public void setUsers(ArrayList<User> users) {
+        this.users = users;
+    }
+
+    public void setBooks(ArrayList<Book> books) {
+        this.books = books;
+    }
+
+    private void loading(String fileName1, String fileName2) throws IOException {
+        fileName1 = fileName1 + ".ser";
+        Path path1 = Paths.get(fileName1);
+        fileName2 = fileName2 + ".ser";
+        Path path2 = Paths.get(fileName2);
+        if (Files.exists(path1) && Files.exists(path2)) {
+            ArrayList<Book> bookList = (ArrayList) FileUtils.loadObject("books.ser");
+            setBooks(bookList);
+            ArrayList<User> userList = (ArrayList) FileUtils.loadObject("users.ser");
+            setUsers(userList);
+        } else {
+            Files.createFile(path1);
+            Files.createFile(path2);
+            originalData();
+            FileUtils.saveObject("books.ser", books);
+            FileUtils.saveObject("users.ser", users);
+        }
+    }
 }
 
 
-
-
-  /*  public void loadHistory() {
-        Library fileHistory = (Library) (FileUtils.readObject("SaveHistory.ser"));
-        this.users = fileHistory.users;
-        this.books = fileHistory.books;
-        this.availableBooks = fileHistory.availableBooks;
-        System.out.println("Game successfully loaded..");
-    }*/
