@@ -150,6 +150,15 @@ public class Library implements Serializable {
                     method.findUserByName(searchWord, users);
                     break;
 
+                case 8: //Show borrowed books by user
+                    System.out.println("---List of borrowed books---");
+                    for(User libraryUser : users){
+                        System.out.printf("User : %s \n", libraryUser.getName());
+                        libraryUser.showBorrowedBooks();
+                        System.out.println("");
+                    }
+                    break;
+
                 case 9:  //Quit
                     lib = false;
                     break;
@@ -255,6 +264,7 @@ public class Library implements Serializable {
         System.out.println("5 : Remove book");
         System.out.println("6 : Remove user");
         System.out.println("7 : Search user");
+        System.out.println("8 : Show borrowed books by user");
         System.out.println("9 : Quit");
         System.out.println("-----------------------");
     }
