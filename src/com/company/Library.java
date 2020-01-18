@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class Library implements Serializable {
-    Method method = new Method();
+    private Method method = new Method();
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<Book> books = new ArrayList<>();
 
@@ -53,7 +53,7 @@ public class Library implements Serializable {
                 }
             }
         } catch (NullPointerException e) {
-            System.out.println("Wrong username or password. Please contact to librarian");
+            System.out.println("Wrong username or password. Contact to librarian");
         }
     }
 
@@ -123,7 +123,7 @@ public class Library implements Serializable {
                     method.showAllUsers(users);
                     String removeUser = librarian.nextLine();
                     User user = method.findUserByName(removeUser, users);
-                    System.out.println("Whould you like to remove this book?  y/n");
+                    System.out.println("Whould you like to remove this user?  y/n");
                     String answerU = librarian.nextLine();
                     if (answerU.equals("y")) {
                         method.removeUser(user, users);
@@ -258,7 +258,7 @@ public class Library implements Serializable {
         System.out.println("Go to");
         System.out.println("Librarian menu : Enter '1' (admin)");
         System.out.println("Customer  menu : Enter '2'");
-        System.out.println("     Quit      : Enter 11");
+        System.out.println("    Log out    : Enter 11");
         System.out.println("------------------------------------------");
     }
 
@@ -295,10 +295,11 @@ public class Library implements Serializable {
     private User userLoggIn() {
         System.out.println("");
         System.out.println("---- Welcome to the Skåne library! ----");
+        System.out.println("--Log in-- ");
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Input your name");
+        System.out.println("Input your name :");
         String userInputName = scanner.nextLine();
-        System.out.println("Input password");
+        System.out.println("Input password :");
         int userInputPassword = Integer.parseInt(scanner.nextLine());
         User user = method.getUser(userInputName, users);
         if (user.getPassword() == userInputPassword) {
