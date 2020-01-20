@@ -62,96 +62,101 @@ public class Library implements Serializable {
         boolean lib = true;
         while (lib) {
             librarianMenu();
-            Scanner librarian = new Scanner(System.in);
-            int librarianChoice = Integer.parseInt(librarian.nextLine());
-            switch (librarianChoice) {
-                case 1:   //Add book
-                    System.out.println("Input the book title");
-                    String title = librarian.nextLine();
-                    System.out.println("Input the book author");
-                    String author = librarian.nextLine();
-                    System.out.println("Input the description of the book");
-                    String description = librarian.nextLine();
-                    method.addBook(title, author, description, true, books);
-                    break;
+            try {
+                Scanner librarian = new Scanner(System.in);
+                int librarianChoice = Integer.parseInt(librarian.nextLine());
+                switch (librarianChoice) {
+                    case 1:   //Add book
+                        System.out.println("Input the book title");
+                        String title = librarian.nextLine();
+                        System.out.println("Input the book author");
+                        String author = librarian.nextLine();
+                        System.out.println("Input the description of the book");
+                        String description = librarian.nextLine();
+                        method.addBook(title, author, description, true, books);
+                        break;
 
-                case 2:   //Add user
-                    System.out.println("Is the user Librarian/Customer? Input l/c");
-                    String category = librarian.nextLine();
-                    if (category.equals("l") || category.equals("c")) {
-                        System.out.println("Input the user name");
-                        String name = librarian.nextLine();
-                        System.out.println("Input the socialSecNumber");
-                        String secNumber = librarian.nextLine();
-                        System.out.println("Input password");
-                        int password = librarian.nextInt();
+                    case 2:   //Add user
+                        System.out.println("Is the user Librarian/Customer? Input l/c");
+                        String category = librarian.nextLine();
+                        if (category.equals("l") || category.equals("c")) {
+                            System.out.println("Input the user name");
+                            String name = librarian.nextLine();
+                            System.out.println("Input the socialSecNumber");
+                            String secNumber = librarian.nextLine();
+                            System.out.println("Input password");
+                            int password = librarian.nextInt();
 
-                        if (category.equals("l")) {
-                            method.addLibrarian(name, secNumber, password, users);
+                            if (category.equals("l")) {
+                                method.addLibrarian(name, secNumber, password, users);
+                            } else {
+                                method.addCustomer(name, secNumber, password, users);
+                            }
                         } else {
-                            method.addCustomer(name, secNumber, password, users);
+                            System.out.println("Input l or c");
                         }
-                    } else {
-                        System.out.println("Input l or c");
-                    }
-                    break;
-
-                case 3:  //Show all books
-                    method.showAllBooks(books);
-                    break;
-
-                case 4:  //Show all users
-                    method.showAllUsers(users);
-                    break;
-
-                case 5: //Remove book
-                    System.out.println("Which book do you want to remove from the list");
-                    method.showAllBooks(books);
-                    String removeBook = librarian.nextLine();
-                    Book book = method.findBookByTitle(removeBook, books);
-                    System.out.println("Whould you like to remove this book?  y/n");
-                    String answer = librarian.nextLine();
-                    if (answer.equals("y")) {
-                        method.removeBook(book, books);
-                    } else if (answer.equals("n")) {
                         break;
-                    }
-                    break;
 
-                case 6: //Remove user
-                    System.out.println("Which user do you want to remove from the list");
-                    method.showAllUsers(users);
-                    String removeUser = librarian.nextLine();
-                    User user = method.findUserByName(removeUser, users);
-                    System.out.println("Whould you like to remove this user?  y/n");
-                    String answerU = librarian.nextLine();
-                    if (answerU.equals("y")) {
-                        method.removeUser(user, users);
-                    } else if (answerU.equals("n")) {
+                    case 3:  //Show all books
+                        method.showAllBooks(books);
                         break;
-                    }
-                    break;
 
-                case 7: //Search user
-                    System.out.println("Search word?");
-                    String searchWord = librarian.nextLine();
-                    method.findUserByName(searchWord, users);
-                    break;
+                    case 4:  //Show all users
+                        method.showAllUsers(users);
+                        break;
 
-                case 8: //Show borrowed books by user
-                    System.out.println("---List of borrowed books---");
-                    for (User libraryUser : users) {
-                        System.out.printf("User : %s \n", libraryUser.getName());
-                        libraryUser.showBorrowedBooks();
-                        System.out.println("");
-                    }
-                    break;
+                    case 5: //Remove book
+                        System.out.println("Which book do you want to remove from the list");
+                        method.showAllBooks(books);
+                        String removeBook = librarian.nextLine();
+                        Book book = method.findBookByTitle(removeBook, books);
+                        System.out.println("Whould you like to remove this book?  y/n");
+                        String answer = librarian.nextLine();
+                        if (answer.equals("y")) {
+                            method.removeBook(book, books);
+                        } else if (answer.equals("n")) {
+                            break;
+                        }
+                        break;
 
-                case 9:  //Quit
-                    FileUtils.saveObject("users.ser", users);
-                    FileUtils.saveObject("books.ser", books);
-                    lib = false;
-                    break;
+                    case 6: //Remove user
+                        System.out.println("Which user do you want to remove from the list");
+                        method.showAllUsers(users);
+                        String removeUser = librarian.nextLine();
+                        User user = method.findUserByName(removeUser, users);
+                        System.out.println("Whould you like to remove this user?  y/n");
+                        String answerU = librarian.nextLine();
+                        if (answerU.equals("y")) {
+                            method.removeUser(user, users);
+                        } else if (answerU.equals("n")) {
+                            break;
+                        }
+                        break;
+
+                    case 7: //Search user
+                        System.out.println("Search word?");
+                        String searchWord = librarian.nextLine();
+                        method.findUserByName(searchWord, users);
+                        break;
+
+                    case 8: //Show borrowed books by user
+                        System.out.println("---List of borrowed books---");
+                        for (User libraryUser : users) {
+                            System.out.printf("User : %s \n", libraryUser.getName());
+                            libraryUser.showBorrowedBooks();
+                            System.out.println("");
+                        }
+                        break;
+
+                    case 9:  //Quit
+                        FileUtils.saveObject("users.ser", users);
+                        FileUtils.saveObject("books.ser", books);
+                        lib = false;
+                        break;
+                }
+            }catch(NumberFormatException e){
+                System.out.println("Please input a number 1 to 9");
+                //e.printStackTrace();
             }
         }
     }
@@ -170,6 +175,7 @@ public class Library implements Serializable {
                     Book bok = method.findBookByTitle(borrowB, books);
                     if (bok != null) {
                         method.borrowBook(user, bok);
+                        System.out.println("The duedate for the book is : " + bok.setDueDate().toLocalDate());
                     }
                     break;
 

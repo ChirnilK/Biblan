@@ -50,6 +50,7 @@ public abstract class User implements Serializable {
     public void showBorrowedBooks() {
         for (Book borrowedbook : borrowedBooks) {
             borrowedbook.bookInfo();
+            System.out.println("Duedate : " + borrowedbook.setDueDate().toLocalDate());
             }
         }
 
