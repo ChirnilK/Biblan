@@ -18,14 +18,16 @@ public class Book implements Serializable {
         this.author = author;
         this.description = description;
         this.available = available;
-
     }
 
-    public LocalDateTime setDueDate() {
-        Timestamp timeStamp = Timestamp.valueOf(LocalDateTime.now());
-        //dueDate = timeStamp.toLocalDateTime().plusDays(14);      //for two weeks
-        dueDate = timeStamp.toLocalDateTime().plusSeconds(1);   //for one second
+    public LocalDateTime getDueDate() {
         return dueDate;
+    }
+
+    public void setDueDate() {
+        Timestamp timeStamp = Timestamp.valueOf(LocalDateTime.now());
+        dueDate = timeStamp.toLocalDateTime().plusDays(14);      //for two weeks
+        //dueDate = timeStamp.toLocalDateTime().plusSeconds(1);   //for one second
     }
 
     public String getTitle() {

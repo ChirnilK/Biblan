@@ -1,6 +1,8 @@
 package com.company;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public abstract class User implements Serializable {
@@ -47,10 +49,19 @@ public abstract class User implements Serializable {
         return false;
     }
 
+ /*   public void isOverdue(){
+        LocalDateTime now = LocalDateTime.now();
+        for (Book borrowedbook : borrowedBooks) {
+            if(now.isAfter(borrowedbook.getDueDate())){
+                System.out.println("=====REMINDER====");
+                System.out.printf("The book : %s is overdue!! ", borrowedbook);
+            }
+        }
+    }*/
+
     public void showBorrowedBooks() {
         for (Book borrowedbook : borrowedBooks) {
-            borrowedbook.bookInfo();
-            System.out.println("Duedate : " + borrowedbook.setDueDate().toLocalDate());
+            System.out.println("Book Title : "+ borrowedbook.getTitle()+ ",    Duedate : "+borrowedbook.getDueDate().toLocalDate());
             }
         }
 

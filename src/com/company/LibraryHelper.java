@@ -1,11 +1,10 @@
 package com.company;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 
-public class Method {
+public class LibraryHelper {
 
     //find a user by name in userList, return User. InputName should be exactly same spell as userName. No partial string.
     public User getUser(String inputName, ArrayList<User> userList) {
@@ -117,6 +116,8 @@ public class Method {
             if (answer.equals("y")) {
                 user.addLoan(book);
                 System.out.println(user.getName() + " borrowed the book : " + book.getTitle());
+                book.setDueDate();
+                System.out.println("Duedate of the book : "+book.getDueDate().toLocalDate());
                 return;
             } else if (answer.equals("n")) {
                 System.out.println("See you!");
@@ -139,6 +140,7 @@ public class Method {
         System.out.println("You haven't borrowed any book.");
         return false;
     }
+
 
 
     //find a book by book title(partial string ok). return Book

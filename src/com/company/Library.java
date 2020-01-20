@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class Library implements Serializable {
-    private Method method = new Method();
+    private LibraryHelper libraryHelper = new LibraryHelper();
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<Book> books = new ArrayList<>();
 
@@ -48,6 +48,7 @@ public class Library implements Serializable {
 
                         default:
                             System.out.println("To choose, enter either '1' or '2'");
+                            break;
 
                     }
                 }
@@ -73,7 +74,7 @@ public class Library implements Serializable {
                         String author = librarian.nextLine();
                         System.out.println("Input the description of the book");
                         String description = librarian.nextLine();
-                        method.addBook(title, author, description, true, books);
+                        libraryHelper.addBook(title, author, description, true, books);
                         break;
 
                     case 2:   //Add user
@@ -88,9 +89,9 @@ public class Library implements Serializable {
                             int password = librarian.nextInt();
 
                             if (category.equals("l")) {
-                                method.addLibrarian(name, secNumber, password, users);
+                                libraryHelper.addLibrarian(name, secNumber, password, users);
                             } else {
-                                method.addCustomer(name, secNumber, password, users);
+                                libraryHelper.addCustomer(name, secNumber, password, users);
                             }
                         } else {
                             System.out.println("Input l or c");
@@ -98,22 +99,22 @@ public class Library implements Serializable {
                         break;
 
                     case 3:  //Show all books
-                        method.showAllBooks(books);
+                        libraryHelper.showAllBooks(books);
                         break;
 
                     case 4:  //Show all users
-                        method.showAllUsers(users);
+                        libraryHelper.showAllUsers(users);
                         break;
 
                     case 5: //Remove book
                         System.out.println("Which book do you want to remove from the list");
-                        method.showAllBooks(books);
+                        libraryHelper.showAllBooks(books);
                         String removeBook = librarian.nextLine();
-                        Book book = method.findBookByTitle(removeBook, books);
+                        Book book = libraryHelper.findBookByTitle(removeBook, books);
                         System.out.println("Whould you like to remove this book?  y/n");
                         String answer = librarian.nextLine();
                         if (answer.equals("y")) {
-                            method.removeBook(book, books);
+                            libraryHelper.removeBook(book, books);
                         } else if (answer.equals("n")) {
                             break;
                         }
@@ -121,13 +122,13 @@ public class Library implements Serializable {
 
                     case 6: //Remove user
                         System.out.println("Which user do you want to remove from the list");
-                        method.showAllUsers(users);
+                        libraryHelper.showAllUsers(users);
                         String removeUser = librarian.nextLine();
-                        User user = method.findUserByName(removeUser, users);
+                        User user = libraryHelper.findUserByName(removeUser, users);
                         System.out.println("Whould you like to remove this user?  y/n");
                         String answerU = librarian.nextLine();
                         if (answerU.equals("y")) {
-                            method.removeUser(user, users);
+                            libraryHelper.removeUser(user, users);
                         } else if (answerU.equals("n")) {
                             break;
                         }
@@ -136,7 +137,7 @@ public class Library implements Serializable {
                     case 7: //Search user
                         System.out.println("Search word?");
                         String searchWord = librarian.nextLine();
-                        method.findUserByName(searchWord, users);
+                        libraryHelper.findUserByName(searchWord, users);
                         break;
 
                     case 8: //Show borrowed books by user
@@ -169,22 +170,21 @@ public class Library implements Serializable {
             int userChoice = Integer.parseInt(cust.nextLine());
             switch (userChoice) {
                 case 1:    //Borrow book
-                    method.showAllBooks(books);
+                    libraryHelper.showAllBooks(books);
                     System.out.println("Which book would you like to borrow?");
                     String borrowB = cust.nextLine();
-                    Book bok = method.findBookByTitle(borrowB, books);
+                    Book bok = libraryHelper.findBookByTitle(borrowB, books);
                     if (bok != null) {
-                        method.borrowBook(user, bok);
-                        System.out.println("The duedate for the book is : " + bok.setDueDate().toLocalDate());
+                        libraryHelper.borrowBook(user, bok);
                     }
                     break;
 
                 case 2:   //Return book
-                    boolean loan = method.showUserLoans(user);
+                    boolean loan = libraryHelper.showUserLoans(user);
                     if (loan) {
                         System.out.println("Which book would you like to return?");
                         String returnItem = cust.nextLine();
-                        Book book = method.findBookByTitle(returnItem, books);
+                        Book book = libraryHelper.findBookByTitle(returnItem, books);
                         if (book != null) {
                             user.returnBook(book);
                             System.out.printf("%s successfully returned the book : %s", user.getName(), book.getTitle());
@@ -193,31 +193,31 @@ public class Library implements Serializable {
                     break;
 
                 case 3:  //Show user's borrowed items
-                    method.showUserLoans(user);
+                    libraryHelper.showUserLoans(user);
                     break;
 
                 case 4:  //Show all available books
-                    method.onlyAvailableBooks(books);
+                    libraryHelper.onlyAvailableBooks(books);
                     break;
 
                 case 5:  //Show all library books
-                    method.showAllBooks(books);
+                    libraryHelper.showAllBooks(books);
                     System.out.println("");
                     bookInforMenu();
                     int bookInfoChoice = Integer.parseInt(cust.nextLine());
                     if (bookInfoChoice == 1) {
                         Collections.sort(books, new SortByTitle());
-                        method.showAllBooks(books);
+                        libraryHelper.showAllBooks(books);
                         //break;
                     } else if (bookInfoChoice == 2) {
                         Collections.sort(books, new SortByAuthor());
-                        method.showAllBooks(books);
+                        libraryHelper.showAllBooks(books);
                         //break;
                     } else if (bookInfoChoice == 3) {
                         System.out.println("Input the title of the book");
                         String NameOfBook = cust.nextLine();
-                        Book book = method.findBookByTitle(NameOfBook, books);
-                        method.bookDescription(book);
+                        Book book = libraryHelper.findBookByTitle(NameOfBook, books);
+                        libraryHelper.bookDescription(book);
                         //break;
                     } else if (bookInfoChoice == 4) {
                         //break;
@@ -228,7 +228,7 @@ public class Library implements Serializable {
                     break;
 
                 case 6:  //Search book
-                    method.searchBook(user, books);
+                    libraryHelper.searchBook(user, books);
                     break;
 
                 case 9: //Quit
@@ -242,19 +242,19 @@ public class Library implements Serializable {
 
     private void originalData() {
 
-        method.addBook("Discrete mathematics", "hhh", "Discrete mathematics is the study of mathematical structures that are fundamentally discrete rather than continuous. In contrast to real numbers that have the property of varying \"smoothly\", the objects studied in discrete mathematics – such as integers, graphs, and statements in logic[1] – do not vary smoothly in this way, but have distinct, separated values.", true, books);
-        method.addBook("Fourier transform", "fff", "The Fourier transform (FT) decomposes a function of time (a signal) into its constituent frequencies. ", true, books);
-        method.addBook("Calculus 1", "ggg", "gewr", true, books);
-        method.addBook("Complex Analysis", "Theodore W. Gamelin", "gewreer", true, books);
-        method.addBook("aa", "aaaaa", "ddfdsdf", true, books);
-        method.addBook("bb", "bbb", "gewaser", true, books);
+        libraryHelper.addBook("Discrete mathematics", "hhh", "Discrete mathematics is the study of mathematical structures that are fundamentally discrete rather than continuous. In contrast to real numbers that have the property of varying \"smoothly\", the objects studied in discrete mathematics – such as integers, graphs, and statements in logic[1] – do not vary smoothly in this way, but have distinct, separated values.", true, books);
+        libraryHelper.addBook("Fourier transform", "fff", "The Fourier transform (FT) decomposes a function of time (a signal) into its constituent frequencies. ", true, books);
+        libraryHelper.addBook("Calculus 1", "ggg", "gewr", true, books);
+        libraryHelper.addBook("Complex Analysis", "Theodore W. Gamelin", "gewreer", true, books);
+        libraryHelper.addBook("aa", "aaaaa", "ddfdsdf", true, books);
+        libraryHelper.addBook("bb", "bbb", "gewaser", true, books);
 
-        method.addLibrarian("Johan", "841123-8976", 1111, users);
-        method.addLibrarian("Maria", "720304-2345", 2222, users);
-        method.addLibrarian("Sari", "000405-1112", 3333, users);
-        method.addCustomer("Tary", "011102-4785", 4444, users);
-        method.addCustomer("Pontos", "811218-3911", 5555, users);
-        method.addCustomer("Kai", "880713-6840", 6666, users);
+        libraryHelper.addLibrarian("Johan", "841123-8976", 1111, users);
+        libraryHelper.addLibrarian("Maria", "720304-2345", 2222, users);
+        libraryHelper.addLibrarian("Sari", "000405-1112", 3333, users);
+        libraryHelper.addCustomer("Tary", "011102-4785", 4444, users);
+        libraryHelper.addCustomer("Pontos", "811218-3911", 5555, users);
+        libraryHelper.addCustomer("Kai", "880713-6840", 6666, users);
     }
 
 
@@ -307,7 +307,7 @@ public class Library implements Serializable {
         String userInputName = scanner.nextLine();
         System.out.println("Input password :");
         int userInputPassword = Integer.parseInt(scanner.nextLine());
-        User user = method.getUser(userInputName, users);
+        User user = libraryHelper.getUser(userInputName, users);
         if (user.getPassword() == userInputPassword) {
             System.out.printf("You are successfully logged in as %s ", user.getName());
             return user;
