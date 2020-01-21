@@ -133,11 +133,12 @@ public abstract class User implements Serializable {
     public void showAllBooks(ArrayList<Book> bookList) {
         FileUtils.saveObject("books.ser", bookList);
         ArrayList<Book> list = (ArrayList) FileUtils.loadObject("books.ser");
-        for (Book book : list) {
-            book.bookInfo();
+        int howMany = list.size();
+        for (int i = 0; i<howMany; i++){
+            System.out.printf("[%s]", i+1);
+            list.get(i).bookInfo();
         }
     }
-
 
  /*   public void isOverdue(){
         LocalDateTime now = LocalDateTime.now();

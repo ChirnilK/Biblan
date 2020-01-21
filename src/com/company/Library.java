@@ -10,49 +10,52 @@ import java.util.Scanner;
 
 public class Library implements Serializable {
 
-    private Librarian librarianClass;
-    private Customer customerClass;
+    private Librarian currentLibrarian;
+    private Customer currentCustomer;
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<Book> books = new ArrayList<>();
 
 
     public void start() throws IOException {
-
-        loading("books", "users");
-        startMenu();
-        Scanner scanner = new Scanner(System.in);
-        String choice = scanner.nextLine();
-        switch (choice) {
-            case "1": //log in
-                try {
+        boolean on = true;
+        loadingFiles("books", "users");
+        while(on) {
+            startMenu();                                    // login or quit
+            Scanner scanner = new Scanner(System.in);
+            String choice = scanner.nextLine();
+            switch (choice) {
+                case "1": //log in
                     User user = userLoggIn();
                     if (user != null) {
                         libraryStart(user);
                     }
-                }catch(NullPointerException e){
-                    System.out.println("Wrong username or password. Contact to librarian");
-                }
-                break;
+                    break;
 
-            case "2":
-                System.exit(0);
-                break;
+                case "2":
+                    System.out.println("See you!");
+                    on = false;
+                    break;
+
+                default:
+                    System.out.println("Enter 1 or 2");
+                    break;
+            }
         }
     }
 
-    public void libraryStart(User user) {
+    private void libraryStart(User user) {
 
         boolean isUserLib = adminCheck(user);  //check if the user is librarian or not
         boolean logIn = true;
         while (logIn) {
-            meinMenu();
+            mainMenu();
             Scanner scanner = new Scanner(System.in);
             String whoUseSystem = scanner.nextLine();
             switch (whoUseSystem) {
                 case "1": //Librarian
                     if(isUserLib){
-                        librarianClass = (Librarian) user;
-                        librarianClass.librarian(books, users);
+                        currentLibrarian = (Librarian) user;
+                        currentLibrarian.librarian(books, users);
                     }
                     else{
                         System.out.println("You don't have a permission");
@@ -61,8 +64,8 @@ public class Library implements Serializable {
 
                 case "2":
                     if(!isUserLib) {
-                        customerClass = (Customer) user;
-                        customerClass.customer(books, users, user);
+                        currentCustomer = (Customer) user;
+                        currentCustomer.customer(books, users, user);
                     }
                     else{
                         System.out.println("Log in as a customer");
@@ -109,7 +112,7 @@ public class Library implements Serializable {
         System.out.println("----------------------------------");
     }
 
-    private void meinMenu() {
+    private void mainMenu() {
         System.out.println("");
         System.out.println("------------------------------------------");
         System.out.println("Go to");
@@ -118,7 +121,6 @@ public class Library implements Serializable {
         System.out.println("    Log out    : Enter 11");
         System.out.println("------------------------------------------");
     }
-
 
 
     //find a user by name in userList, return User. InputName should be exactly same spell as userName. No partial string.
@@ -136,15 +138,19 @@ public class Library implements Serializable {
         System.out.println(" ---  Log in  --- ");
         Scanner scanner = new Scanner(System.in);
         System.out.println("Input your name :");
-        String userInputName = scanner.nextLine();
-        System.out.println("Input password :");
-        int userInputPassword = Integer.parseInt(scanner.nextLine());
-        User user = getUser(userInputName, userInputPassword);
-        if (user!=null) {
-            System.out.printf("You are successfully logged in as %s, %s ", user.getClass().getName().replace("com.company.", ""), user.getName());
-            return user;
+        try {
+            String userInputName = scanner.nextLine();
+            System.out.println("Input password :");
+            int userInputPassword = Integer.parseInt(scanner.nextLine());
+            User user = getUser(userInputName, userInputPassword);
+            if (user != null) {
+                System.out.printf("You are successfully logged in as %s, %s ", user.getClass().getName().replace("com.company.", ""), user.getName());
+                return user;
+            }
+        }catch (NumberFormatException e){
+            System.out.println("");
         }
-        System.out.println("Wrong password. Try it again");
+        System.out.println("Wrong username or password. Try it again");
         return null;
     }
 
@@ -164,7 +170,7 @@ public class Library implements Serializable {
         this.books = books;
     }
 
-    private void loading(String fileName1, String fileName2) throws IOException {
+    private void loadingFiles(String fileName1, String fileName2) throws IOException {
         fileName1 = fileName1 + ".ser";
         Path path1 = Paths.get(fileName1);
         fileName2 = fileName2 + ".ser";

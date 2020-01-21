@@ -34,13 +34,16 @@ public class Librarian extends User {
                         String name = librarian.nextLine();
                         System.out.println("Input the socialSecNumber");
                         String secNumber = librarian.nextLine();
-                        System.out.println("Input password");
-                        int password = librarian.nextInt();
-
-                        if (category.equals("l")) {
-                            addLibrarian(name, secNumber, password, userList);
-                        } else {
-                            addCustomer(name, secNumber, password, userList);
+                        try {
+                            System.out.println("Input password");
+                            int password = librarian.nextInt();
+                            if (category.equals("l")) {
+                                addLibrarian(name, secNumber, password, userList);
+                            } else {
+                                addCustomer(name, secNumber, password, userList);
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Password should be numbers");
                         }
                     } else {
                         System.out.println("Input l or c");
@@ -56,42 +59,56 @@ public class Librarian extends User {
                     break;
 
                 case "5": //Remove book
-                    System.out.println("Enter the title of the book you want to remove from the list");
+                    System.out.println("Enter the index number of the book you want to remove from the list");
+                    System.out.println("");
                     showAllBooks(bookList);
-                    String removeBook = librarian.nextLine();
-                    Book book = findBookByTitle(removeBook, bookList);
-                    if(book!=null) {
+                    try {
+                        int index = Integer.parseInt(librarian.nextLine());
+                        Book book = bookList.get(index - 1);
+                        book.bookInfo();
                         System.out.println("Whould you like to remove this book?  y/n");
                         String answer = librarian.nextLine();
                         if (answer.equals("y")) {
                             removeBook(book, bookList);
                         } else if (answer.equals("n")) {
                             break;
+                        } else {
+                            System.out.println("Choose y or n");
                         }
+                    } catch (Exception e) {
+                        System.out.println("Choose index number. Try again");
                     }
                     break;
 
                 case "6": //Remove user
-                    System.out.println("Which user do you want to remove from the list");
+                    System.out.println("Enter the index number of the user you want to remove from the list");
+                    System.out.println("");
                     showAllUsers(userList);
-                    String removeUser = librarian.nextLine();
-                    User user = findUserByName(removeUser, userList);
-                    System.out.println("Whould you like to remove this user?  y/n");
-                    String answerU = librarian.nextLine();
-                    if (answerU.equals("y")) {
-                        removeUser(user, userList);
-                    } else if (answerU.equals("n")) {
-                        break;
+                    try {
+                        int index = Integer.parseInt(librarian.nextLine());
+                        User user = userList.get(index - 1);
+                        user.userInfor();
+                        System.out.println("Whould you like to remove this user?  y/n");
+                        String answerU = librarian.nextLine();
+                        if (answerU.equals("y")) {
+                            removeUser(user, userList);
+                        } else if (answerU.equals("n")) {
+                            break;
+                        } else {
+                            System.out.println("Choose y or n");
+                        }
+                    }catch(Exception e){
+                        System.out.println("Choose index number. Try again");
                     }
                     break;
 
                 case "7": //Search user
-                    System.out.println("Search word?");
+                    System.out.println("Insert an user name that you are searching for?");
                     String searchWord = librarian.nextLine();
                     findUserByName(searchWord, userList);
                     break;
 
-                case "8": //Show borrowed books by user
+                case "8": //Show borrowed books by all user
                     System.out.println("---List of borrowed books---");
                     for (User libraryUser : userList) {
                         System.out.printf("User : %s \n", libraryUser.getName());
@@ -124,7 +141,7 @@ public class Librarian extends User {
         System.out.println("5 : Remove book");
         System.out.println("6 : Remove user");
         System.out.println("7 : Search user");
-        System.out.println("8 : Show borrowed books by user");
+        System.out.println("8 : Show borrowed books by all user");
         System.out.println("9 : Quit");
         System.out.println("-----------------------");
     }
@@ -148,24 +165,14 @@ public class Librarian extends User {
     //show all users in list. first save the list to a file named "users.ser" then load the file
     public void showAllUsers(ArrayList<User> userList) {
         FileUtils.saveObject("users.ser", userList);
-        ArrayList<User> list1 = (ArrayList) FileUtils.loadObject("users.ser");
-        for (User user : list1) {
-            user.userInfor();
+        ArrayList<User> list = (ArrayList) FileUtils.loadObject("users.ser");
+        int howMany = list.size();
+        for (int i = 0; i<howMany; i++){
+            System.out.printf("[%s]", i+1);
+            list.get(i).userInfor();
         }
     }
 
-/*    //find user by name in userList. return User. Here we use partial string.
-    ArrayList<User> findUserList = new ArrayList<>();
-    public ArrayList<User> findUserListByName(String searchName, ArrayList<User> userList) {
-        for (User user : userList) {
-            if (user.getName().toLowerCase().contains(searchName.toLowerCase())) {
-                findUserList.add(user);
-                return findUserList;
-            }
-        }
-        System.out.println("Couldn't find a user with that word");
-        return null;
-    }*/
     //find user by name in userList. return User. Here we use partial string.
     public User findUserByName(String searchName, ArrayList<User> userList) {
         for (User user : userList) {
