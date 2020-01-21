@@ -24,7 +24,7 @@ public class Librarian extends User {
                     String author = librarian.nextLine();
                     System.out.println("Input the description of the book");
                     String description = librarian.nextLine();
-                    addBook(title, author, description, true, bookList);
+                    addBook(title, author, description, bookList);
                     break;
 
                 case "2":   //Add user
@@ -53,6 +53,14 @@ public class Librarian extends User {
 
                 case "3":  //Show all books
                     showAllBooks(bookList);
+                    System.out.println("");
+                    System.out.println("Do you want to see only available books? y/n");
+                    String ans = librarian.nextLine();
+                    if(ans.equals("y")) {
+                        onlyAvailableBooks(bookList);
+                    }else{
+                        System.out.println("See you!");
+                    }
                     break;
 
                 case "4":  //Show all users
@@ -137,7 +145,7 @@ public class Librarian extends User {
         System.out.println("Enter");
         System.out.println("1 : Add book");
         System.out.println("2 : Add user");
-        System.out.println("3 : Show all books");
+        System.out.println("3 : Show all books / Available books");
         System.out.println("4 : Show all users");
         System.out.println("5 : Remove book");
         System.out.println("6 : Remove user");
@@ -149,24 +157,25 @@ public class Librarian extends User {
 
 
     //add a book to list
-    public void addBook(String title, String author, String description, boolean available, ArrayList<Book> bookList) {
+    private void addBook(String title, String author, String description, ArrayList<Book> bookList) {
         bookList.add(new Book(title, author, description, true));
     }
 
     //add a librarian to userList
-    public void addLibrarian(String name, String secNumber, int password, ArrayList<User> userList) {
+    private void addLibrarian(String name, String secNumber, int password, ArrayList<User> userList) {
         userList.add(new Librarian(name, secNumber, password));
     }
 
     //add a customer to userList
-    public void addCustomer(String name, String secNumber, int password, ArrayList<User> userList) {
+    private void addCustomer(String name, String secNumber, int password, ArrayList<User> userList) {
         userList.add(new Customer(name, secNumber, password));
     }
 
     //show all users in list. first save the list to a file named "users.ser" then load the file
-    public void showAllUsers(ArrayList<User> userList) {
+    private void showAllUsers(ArrayList<User> userList) {
         FileUtils.saveObject("users.ser", userList);
         ArrayList<User> list = (ArrayList) FileUtils.loadObject("users.ser");
+        assert list != null;
         int howMany = list.size();
         for (int i = 0; i<howMany; i++){
             System.out.printf("[%s]", i+1);
@@ -174,26 +183,25 @@ public class Librarian extends User {
         }
     }
 
+
     //find user by name in userList. return User. Here we use partial string.
-    public User findUserByName(String searchName, ArrayList<User> userList) {
+    private void findUserByName(String searchName, ArrayList<User> userList) {
         for (User user : userList) {
             if (user.getName().toLowerCase().contains(searchName.toLowerCase())) {
                 user.userInfor();
-                return user;
             }
         }
         System.out.println("Couldn't find any user. Try it again");
-        return null;
     }
 
 
 
-    public void removeBook(Book book, ArrayList<Book> bookList) {
+    private void removeBook(Book book, ArrayList<Book> bookList) {
         bookList.remove(book);
         System.out.printf("The book : '%s' is removed", book.getTitle());
     }
 
-    public void removeUser(User user, ArrayList<User> userList) {
+    private void removeUser(User user, ArrayList<User> userList) {
         userList.remove(user);
         System.out.printf("The user : '%s' is removed", user.getName());
     }

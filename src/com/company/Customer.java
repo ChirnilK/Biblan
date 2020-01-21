@@ -135,7 +135,7 @@ public class Customer extends User {
 
 
     //borrow book by book title(partial string)
-    public void borrowBook(User user, Book book) {
+    private void borrowBook(User user, Book book) {
         Scanner sc = new Scanner(System.in);
         if (book.isAvailable()) {
             System.out.println("Do you want to borrow this book?  y/n");
@@ -159,7 +159,7 @@ public class Customer extends User {
     }
 
     //search book by book title or author. The loggin user can borrow the book after searching.
-    public void searchBook(User user, ArrayList<Book> bookList) {
+    private void searchBook(User user, ArrayList<Book> bookList) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Search by book title / author name?  Enter t / a ");
         String search = scanner.nextLine();

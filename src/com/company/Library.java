@@ -25,7 +25,7 @@ public class Library implements Serializable {
             String choice = scanner.nextLine();
             switch (choice) {
                 case "1": //log in
-                    User user = userLoggIn();
+                    User user = userLogIn();
                     if (user != null) {
                         libraryStart(user);
                     }
@@ -124,7 +124,7 @@ public class Library implements Serializable {
 
 
     //find a user by name in userList, return User. InputName should be exactly same spell as userName. No partial string.
-    public User getUser(String inputName, int inputPassword) {
+    private User getUser(String inputName, int inputPassword) {
         for (User user : users) {
             if (user.getName().toLowerCase().equals(inputName.toLowerCase())&&user.getPassword()==inputPassword) {
                 return user;
@@ -133,7 +133,7 @@ public class Library implements Serializable {
         return null;
     }
 
-    private User userLoggIn() {
+    private User userLogIn() {
         System.out.println("");
         System.out.println(" ---  Log in  --- ");
         Scanner scanner = new Scanner(System.in);
@@ -155,18 +155,15 @@ public class Library implements Serializable {
     }
 
     private boolean adminCheck(User user) {
-        if (user instanceof Librarian) {
-            return true;
-        }
-        return false;
+        return user instanceof Librarian;
     }
 
 
-    public void setUsers(ArrayList<User> users) {
+    private void setUsers(ArrayList<User> users) {
         this.users = users;
     }
 
-    public void setBooks(ArrayList<Book> books) {
+    private void setBooks(ArrayList<Book> books) {
         this.books = books;
     }
 
