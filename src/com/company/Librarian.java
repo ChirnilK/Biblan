@@ -9,7 +9,8 @@ public class Librarian extends User {
         super(name, socialSecNumber, password);
     }
 
-    public void librarian(ArrayList<Book> bookList, ArrayList<User> userList) {
+    public void librarian(ArrayList<Book> bookList, ArrayList<User> userList, User user) {
+        isOverdue(user);
         boolean lib = true;
         while (lib) {
             librarianMenu();
@@ -86,8 +87,8 @@ public class Librarian extends User {
                     showAllUsers(userList);
                     try {
                         int index = Integer.parseInt(librarian.nextLine());
-                        User user = userList.get(index - 1);
-                        user.userInfor();
+                        User inputUser = userList.get(index - 1);
+                        inputUser.userInfor();
                         System.out.println("Whould you like to remove this user?  y/n");
                         String answerU = librarian.nextLine();
                         if (answerU.equals("y")) {

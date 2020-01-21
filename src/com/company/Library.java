@@ -55,7 +55,7 @@ public class Library implements Serializable {
                 case "1": //Librarian
                     if(isUserLib){
                         currentLibrarian = (Librarian) user;
-                        currentLibrarian.librarian(books, users);
+                        currentLibrarian.librarian(books, users, user);
                     }
                     else{
                         System.out.println("You don't have a permission");

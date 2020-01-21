@@ -10,6 +10,7 @@ public class Customer extends User {
     }
 
     public void customer(ArrayList<Book> bookList, ArrayList<User> userList, User user) {
+        isOverdue(user);
         boolean cus = true;
         while (cus) {
             customerMenu();

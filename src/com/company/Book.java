@@ -26,8 +26,8 @@ public class Book implements Serializable {
 
     public void setDueDate() {
         Timestamp timeStamp = Timestamp.valueOf(LocalDateTime.now());
-        dueDate = timeStamp.toLocalDateTime().plusDays(14);      //for two weeks
-        //dueDate = timeStamp.toLocalDateTime().plusSeconds(1);   //for one second
+        //dueDate = timeStamp.toLocalDateTime().plusDays(14);      //for two weeks
+        dueDate = timeStamp.toLocalDateTime().plusSeconds(5);   //for 5 second
     }
 
     public String getTitle() {

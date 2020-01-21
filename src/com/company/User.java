@@ -1,6 +1,7 @@
 package com.company;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -107,15 +108,21 @@ public abstract class User implements Serializable {
         }
     }
 
- /*   public void isOverdue(){
+    public void isOverdue(User user){
         LocalDateTime now = LocalDateTime.now();
-        for (Book borrowedbook : borrowedBooks) {
-            if(now.isAfter(borrowedbook.getDueDate())){
-                System.out.println("=====REMINDER====");
-                System.out.printf("The book : %s is overdue!! ", borrowedbook);
+        int howMany = user.borrowedBooks.size();
+        if (howMany!=0) {
+            System.out.println("=====INFORMATION====");
+            for (Book borrowedbook : borrowedBooks) {
+                if (now.isAfter(borrowedbook.getDueDate())) {
+                    System.out.println("Overdue book : "+ borrowedbook.getTitle()+",  Duedate : "+borrowedbook.getDueDate().toLocalDate());
+                }
             }
-        }
-    }*/
+        } else{
+            System.out.println("You don't have any overdue book");
+            }
+    }
+
 
     //show only available books in list
     public void onlyAvailableBooks(ArrayList<Book> bookList) {
