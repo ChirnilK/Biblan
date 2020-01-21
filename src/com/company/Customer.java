@@ -14,75 +14,95 @@ public class Customer extends User {
         while (cus) {
             customerMenu();
             Scanner cust = new Scanner(System.in);
-            int userChoice = Integer.parseInt(cust.nextLine());
+            String userChoice = cust.nextLine();
             switch (userChoice) {
-                case 1:    //Borrow book
+                case "1":    //Borrow book
+                    System.out.println("Input the index number of the book you want to borrow");
+                    System.out.println("");
                     showAllBooks(bookList);
-                    System.out.println("Which book would you like to borrow?");
-                    String borrowB = cust.nextLine();
-                    Book bok = findBookByTitle(borrowB, bookList);
-                    if (bok != null) {
-                        borrowBook(user, bok);
+                    try {
+                        int index = Integer.parseInt(cust.nextLine());
+                        Book book = bookList.get(index - 1);
+                        book.bookInfo();
+                        borrowBook(user, book);
+                    }catch(Exception e){
+                        System.out.println("Choose an index number of the book. Try again");
                     }
                     break;
 
-                case 2:   //Return book
+                case "2":   //Return book
                     boolean loan = showUserLoans(user);
-                    if (loan) {
-                        System.out.println("Which book would you like to return?");
-                        String returnItem = cust.nextLine();
-                        Book book = findBookByTitle(returnItem, bookList);
-                        if (book != null) {
-                            user.returnBook(book);
-                            System.out.printf("%s successfully returned the book : %s", user.getName(), book.getTitle());
+                    if(loan) {
+                        user.returnBook(user);
+                    }
+                    break;
+
+                case "3":  //Show user's borrowed items
+                    showUserLoans(user);
+                    break;
+
+                case "4":  //Show all available books
+                    onlyAvailableBooks(bookList);
+                    break;
+
+                case "5":  //Show all library books
+                    showAllBooks(bookList);
+                    System.out.println("");
+                    bookInforMenu();
+                    boolean on = true;
+                    while(on) {
+                        String bookInfoChoice = cust.nextLine();
+                        switch (bookInfoChoice) {
+                            case "1":
+                                Collections.sort(bookList, new SortByTitle());
+                                showAllBooks(bookList);
+                                on = false;
+                                break;
+
+                            case "2":
+                                Collections.sort(bookList, new SortByAuthor());
+                                showAllBooks(bookList);
+                                on = false;
+                                break;
+
+                            case "3":
+                                System.out.println("Input the index of the book you want to read the description");
+                                showAllBooks(bookList);
+                                try {
+                                    int index = Integer.parseInt(cust.nextLine());
+                                    Book book = bookList.get(index - 1);
+                                    System.out.println(book.getTitle());
+                                    System.out.println(book.getDescription());
+                                } catch (Exception e) {
+                                    System.out.println("Choose index number. Try again");
+                                }
+                                on = false;
+                                break;
+
+                            case "4":
+                                on = false;
+                                break;
+
+                            default:
+                                System.out.println("Input a number 1-4");
+                                break;
                         }
                     }
                     break;
 
-                case 3:  //Show user's borrowed items
-                    showUserLoans(user);
-                    break;
 
-                case 4:  //Show all available books
-                    onlyAvailableBooks(bookList);
-                    break;
-
-                case 5:  //Show all library books
-                    showAllBooks(bookList);
-                    System.out.println("");
-                    bookInforMenu();
-                    int bookInfoChoice = Integer.parseInt(cust.nextLine());
-                    if (bookInfoChoice == 1) {
-                        Collections.sort(bookList, new SortByTitle());
-                        showAllBooks(bookList);
-                        //break;
-                    } else if (bookInfoChoice == 2) {
-                        Collections.sort(bookList, new SortByAuthor());
-                        showAllBooks(bookList);
-                        //break;
-                    } else if (bookInfoChoice == 3) {
-                        System.out.println("Input the title of the book");
-                        String NameOfBook = cust.nextLine();
-                        Book book = findBookByTitle(NameOfBook, bookList);
-                        bookDescription(book);
-                        //break;
-                    } else if (bookInfoChoice == 4) {
-                        //break;
-                    } else {
-                        System.out.println("Input a number 1-4");
-                        //break;
-                    }
-                    break;
-
-                case 6:  //Search book
+                case "6":  //Search book
                     searchBook(user, bookList);
                     break;
 
-                case 9: //Quit
+                case "9": //Quit
                     FileUtils.saveObject("users.ser", userList);
                     FileUtils.saveObject("books.ser", bookList);
                     cus = false;
                     break;
+
+                default:
+                    System.out.println("Enter a number");
             }
         }
     }
@@ -112,15 +132,6 @@ public class Customer extends User {
     }
 
 
-    //show only available books in list
-    public void onlyAvailableBooks(ArrayList<Book> bookList) {
-        for (Book book : bookList) {
-            if ((book.isAvailable())) {
-                book.bookInfo();
-            }
-        }
-    }
-
 
     //borrow book by book title(partial string)
     public void borrowBook(User user, Book book) {
@@ -134,13 +145,39 @@ public class Customer extends User {
                 book.setDueDate();
                 System.out.println("Duedate of the book : "+book.getDueDate().toLocalDate());
                 return;
-            } else if (answer.equals("n")) {
+            }else if (answer.equals("n")) {
                 System.out.println("See you!");
                 return;
+            }else{
+                System.out.println("Input y or n");
             }
         } else {
-            System.out.println("The book is not available");
+            System.out.println("The book is not available right now");
             return;
+        }
+    }
+
+    //search book by book title or author. The loggin user can borrow the book after searching.
+    public void searchBook(User user, ArrayList<Book> bookList) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Search by book title / author name?  Enter t / a ");
+        String search = scanner.nextLine();
+        if (search.equals("t")) {
+            System.out.println("What is the book title?");
+            String searchTitle = scanner.nextLine();
+            Book book = findBookByTitle(searchTitle, bookList);
+            if (book != null) {
+                borrowBook(user, book);
+            }
+        } else if (search.equals("a")) {
+            System.out.println("What is the Author name?");
+            String searchAuthor = scanner.nextLine();
+            Book book = findBookByAuthor(searchAuthor, bookList);
+            if (book != null) {
+                borrowBook(user, book);
+                }
+        } else {
+            System.out.println("Enter 't' or 'a'");
         }
     }
 

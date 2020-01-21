@@ -66,7 +66,7 @@ public class Librarian extends User {
                         int index = Integer.parseInt(librarian.nextLine());
                         Book book = bookList.get(index - 1);
                         book.bookInfo();
-                        System.out.println("Whould you like to remove this book?  y/n");
+                        System.out.println("Would you like to remove this book?  y/n");
                         String answer = librarian.nextLine();
                         if (answer.equals("y")) {
                             removeBook(book, bookList);

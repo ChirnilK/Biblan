@@ -36,9 +36,18 @@ public abstract class User implements Serializable {
         book.setAvailable(false);
     }
 
-    public void returnBook(Book book) {
-        borrowedBooks.remove(book);
-        book.setAvailable(true);
+    public void returnBook(User user) {
+        System.out.println("Input the index of the book which you want to return");
+        Scanner scanner = new Scanner(System.in);
+        try {
+            int returnIndex = Integer.parseInt(scanner.nextLine());
+            Book book = borrowedBooks.get(returnIndex - 1);
+            borrowedBooks.remove(book);
+            book.setAvailable(true);
+            System.out.printf("%s successfully returned the book : %s", user.getName(), book.getTitle());
+        }catch(Exception e){
+            System.out.println("Choose index number. Try again");
+        }
     }
 
     public boolean isThereLoan(){
@@ -46,42 +55,6 @@ public abstract class User implements Serializable {
             return true;
         }
         return false;
-    }
-
-    //search book by book title or author. The loggin user can borrow the book after searching.
-    public void searchBook(User user, ArrayList<Book> bookList) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Search by book title / author name?  Enter t / a ");
-        String search = scanner.nextLine();
-        if (search.equals("t")) {
-            System.out.println("What is the book title?");
-            String searchTitle = scanner.nextLine();
-            Book book = findBookByTitle(searchTitle, bookList);
-            if (book != null) {
-                System.out.println("Would you like to borrow the book?  y/n");
-                String answer = scanner.nextLine();
-                if (answer.equals("y")) {
-                    //customerClass.borrowBook(user, book);
-                } else if (answer.equals("n")) {
-                    System.out.println("See you!");
-                }
-            }
-        } else if (search.equals("a")) {
-            System.out.println("What is the Author name?");
-            String searchAuthor = scanner.nextLine();
-            Book book = findBookByAuthor(searchAuthor, bookList);
-            if (book != null) {
-                System.out.println("Would you like to borrow the book?  y/n");
-                String answer = scanner.nextLine();
-                if (answer.equals("y")) {
-                    //borrowBook(user, book);
-                } else if (answer.equals("n")) {
-                    System.out.println("See you!");
-                }
-            }
-        } else {
-            System.out.println("Enter 't' or 'a'");
-        }
     }
 
 
@@ -105,7 +78,7 @@ public abstract class User implements Serializable {
                 return book;
             }
         }
-        System.out.println("can't find anything. Try it again");
+        System.out.println("can't find any book. Try it again");
         return null;
     }
 
@@ -118,14 +91,8 @@ public abstract class User implements Serializable {
                 return book;
             }
         }
-        System.out.println("can't find any");
+        System.out.println("can't find any book. Try it again");
         return null;
-    }
-
-
-
-    public void bookDescription(Book book){
-        System.out.println(book.getDescription());
     }
 
 
@@ -150,10 +117,21 @@ public abstract class User implements Serializable {
         }
     }*/
 
-    public void showBorrowedBooks() {
-        for (Book borrowedbook : borrowedBooks) {
-            System.out.println("Book Title : "+ borrowedbook.getTitle()+ ",    Duedate : "+borrowedbook.getDueDate().toLocalDate());
+    //show only available books in list
+    public void onlyAvailableBooks(ArrayList<Book> bookList) {
+        for (Book book : bookList) {
+            if ((book.isAvailable())) {
+                book.bookInfo();
             }
         }
+    }
 
+
+    public void showBorrowedBooks() {
+        int howMany = borrowedBooks.size();
+        for (int i = 0; i < howMany; i++) {
+            System.out.printf("[%s]", i + 1);
+            System.out.println("Book Title : " + borrowedBooks.get(i).getTitle() + ",    Duedate : " + borrowedBooks.get(i).getDueDate().toLocalDate());
+        }
+    }
 }

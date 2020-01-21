@@ -39,7 +39,7 @@ public class Book implements Serializable {
     }
 
     public String getDescription() {
-        return "The Book description {"+ description + "}";
+        return "Book description : \n{"+ description + "}";
     }
 
     public boolean isAvailable() {
