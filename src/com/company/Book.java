@@ -31,7 +31,7 @@ public class Book implements Serializable {
     }
 
     public String getTitle() {
-        return title;
+        return "Book title : "+title;
     }
 
     public String getAuthor() {

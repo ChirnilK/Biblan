@@ -68,6 +68,7 @@ public class Customer extends User {
 
                             case "3":
                                 System.out.println("Input the index of the book you want to read the description");
+                                System.out.println("");
                                 showAllBooks(bookList);
                                 try {
                                     int index = Integer.parseInt(cust.nextLine());
@@ -103,7 +104,7 @@ public class Customer extends User {
                     break;
 
                 default:
-                    System.out.println("Enter a number");
+                    System.out.println("Enter a number 1 to 6 or 9");
             }
         }
     }

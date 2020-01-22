@@ -87,12 +87,20 @@ public class Library implements Serializable {
 
     private void originalData() {
 
-        books.add(new Book("Discrete mathematics", "hhh", "Discrete mathematics is the study of mathematical structures that are fundamentally discrete rather than continuous. In contrast to real numbers that have the property of varying \"smoothly\", the objects studied in discrete mathematics – such as integers, graphs, and statements in logic[1] – do not vary smoothly in this way, but have distinct, separated values.", true));
-        books.add(new Book("Fourier transform", "fff", "The Fourier transform (FT) decomposes a function of time (a signal) into its constituent frequencies. ", true));
-        books.add(new Book("Calculus 1", "ggg", "gewr", true));
-        books.add(new Book("Complex Analysis", "Theodore W. Gamelin", "gewreer", true));
-        books.add(new Book("aa", "aaaaa", "ddfdsdf", true));
-        books.add(new Book("bb", "bbb", "gewaser", true));
+        books.add(new Book("Discrete and Combinatorial Mathematics", "Ralph P. Grimaldi", "The book is both complete and careful.\r\n " +
+                "It continues to maintain its emphasis on algorithms and applications.\r\n" +
+                " Excellent exercise sets allow students to perfect skills as they practice.", true));
+        books.add(new Book("Who Is Fourier?", "Transnational College of Lex", "This book is about Fourier Analysis.\r\n " +
+                "It as an exceptional piece of work in that it starts to explain the techniques of Fourier Analysis \r\n" +
+                " from almost ground zero right up to complex variables and groups.", true));
+        books.add(new Book("Calculus", "James Stewart", "Success in your calculus course starts here! \r\n" +
+                " This book is a world-wide best-sellers for a reason: they are clear, accurate, \r\n " +
+                "and filled with relevant, real-world examples.", true));
+        books.add(new Book("Complex Analysis", "Theodore W. Gamelin", "An introduction to complex analysis \r\n" +
+                " for students with some knowledge of complex numbers from high school.", true));
+        books.add(new Book("Linear Algebra Done Right", "Sheldon Axler", "This best-selling textbook for a second course in linear algebra is aimed at undergrad math majors \r\n" +
+                " and graduate students.", true));
+        books.add(new Book("aa", "bbb", "Test,test", true));
 
         users.add(new Librarian("Johan", "841123-8976", 1111));
         users.add(new Librarian("Maria", "720304-2345", 2222));
@@ -101,6 +109,7 @@ public class Library implements Serializable {
         users.add(new Customer("Johan", "841123-8976", 1222));
         users.add(new Customer("Johannes", "641123-0276", 5555));
     }
+
 
 
     private void startMenu() {
