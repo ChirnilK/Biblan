@@ -32,12 +32,15 @@ public abstract class User implements Serializable {
 
     public abstract void userInfor();
 
+
     public void addLoan(Book book){
         borrowedBooks.add(book);
         book.setAvailable(false);
     }
 
+
     public void returnBook(User user) {
+        System.out.println("");
         System.out.println("Input the index of the book which you want to return");
         Scanner scanner = new Scanner(System.in);
         try {
@@ -59,7 +62,7 @@ public abstract class User implements Serializable {
     }
 
 
-    //show user's all loan. return true for there is loan. false for no loan.
+    //show user's all loan and also return true for there is loan. false for no loan.
     public boolean showUserLoans(User user) {
         System.out.printf("Information of %s's loan :\n", user.getName());
         boolean loan = user.isThereLoan();
@@ -71,7 +74,7 @@ public abstract class User implements Serializable {
         return false;
     }
 
-    //find a book by book title(partial string ok). return Book
+    //find a book by book title(partial string). return Book/null
     public Book findBookByTitle(String name, ArrayList<Book> bookList) {
         for (Book book : bookList) {
             if (book.getTitle().toLowerCase().contains(name.toLowerCase())) {
@@ -84,7 +87,7 @@ public abstract class User implements Serializable {
     }
 
 
-    //find a book by author(partial string ok). return Book.
+    //find a book by author(partial string). return Book/null
     public Book findBookByAuthor(String name, ArrayList<Book> bookList) {
         for (Book book : bookList) {
             if (book.getAuthor().toLowerCase().contains(name.toLowerCase())) {
@@ -97,7 +100,7 @@ public abstract class User implements Serializable {
     }
 
 
-    //show all books in list. first save the list to a file named "books.ser" then load the file
+    //show all books in bookList with index.
     public void showAllBooks(ArrayList<Book> bookList) {
         FileUtils.saveObject("books.ser", bookList);
         ArrayList<Book> list = (ArrayList) FileUtils.loadObject("books.ser");
@@ -108,6 +111,7 @@ public abstract class User implements Serializable {
         }
     }
 
+    //if user has overdue book then get remainder.
     public void isOverdue(User user){
         LocalDateTime now = LocalDateTime.now();
         int howMany = user.borrowedBooks.size();
@@ -118,9 +122,7 @@ public abstract class User implements Serializable {
                     System.out.println("Overdue book : "+ borrowedbook.getTitle()+",  Duedate : "+borrowedbook.getDueDate().toLocalDate());
                 }
             }
-        } else{
-            System.out.println("You don't have any overdue book");
-            }
+        }
     }
 
 
@@ -133,7 +135,7 @@ public abstract class User implements Serializable {
         }
     }
 
-
+    //show user's all loan, book title and due date
     public void showBorrowedBooks() {
         int howMany = borrowedBooks.size();
         for (int i = 0; i < howMany; i++) {

@@ -10,7 +10,7 @@ public class Customer extends User {
     }
 
     public void customer(ArrayList<Book> bookList, ArrayList<User> userList, User user) {
-        isOverdue(user);
+        isOverdue(user);                        //if the user has overdue book, gets remainder
         boolean cus = true;
         while (cus) {
             customerMenu();
@@ -54,19 +54,19 @@ public class Customer extends User {
                     while(on) {
                         String bookInfoChoice = cust.nextLine();
                         switch (bookInfoChoice) {
-                            case "1":
+                            case "1":      //Sort the book list by title
                                 Collections.sort(bookList, new SortByTitle());
                                 showAllBooks(bookList);
                                 on = false;
                                 break;
 
-                            case "2":
+                            case "2":       //Sort the book list by author(alphabet order)
                                 Collections.sort(bookList, new SortByAuthor());
                                 showAllBooks(bookList);
                                 on = false;
                                 break;
 
-                            case "3":
+                            case "3":      //Show more details of book
                                 System.out.println("Input the index of the book you want to read the description");
                                 System.out.println("");
                                 showAllBooks(bookList);
@@ -126,16 +126,17 @@ public class Customer extends User {
     private void bookInforMenu() {
         System.out.println("More over, would you like to ");
         System.out.println("");
+        System.out.println("=====================================");
         System.out.println("1 : Sort the book list by title");
         System.out.println("2 : Sort the book list by author");
-        System.out.println("3 : Show more details of a book");
+        System.out.println("3 : Show more details of book");
         System.out.println("4 : Quit");
         System.out.println("Enter a number");
+        System.out.println("======================================");
     }
 
 
 
-    //borrow book by book title(partial string)
     private void borrowBook(User user, Book book) {
         Scanner sc = new Scanner(System.in);
         if (book.isAvailable()) {
@@ -159,7 +160,7 @@ public class Customer extends User {
         }
     }
 
-    //search book by book title or author. The loggin user can borrow the book after searching.
+    //search book by book title or author. The user can borrow the book after that.
     private void searchBook(User user, ArrayList<Book> bookList) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Search by book title / author name?  Enter t / a ");

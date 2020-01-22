@@ -10,7 +10,7 @@ public class Librarian extends User {
     }
 
     public void librarian(ArrayList<Book> bookList, ArrayList<User> userList, User user) {
-        isOverdue(user);
+        isOverdue(user);                              //if the user has overdue book, gets remainder
         boolean lib = true;
         while (lib) {
             librarianMenu();
@@ -156,7 +156,7 @@ public class Librarian extends User {
     }
 
 
-    //add a book to list
+    //add a book to bookList
     private void addBook(String title, String author, String description, ArrayList<Book> bookList) {
         bookList.add(new Book(title, author, description, true));
     }
@@ -184,23 +184,24 @@ public class Librarian extends User {
     }
 
 
-    //find user by name in userList. return User. Here we use partial string.
+    //find user by name in userList. Here we use partial string.
     private void findUserByName(String searchName, ArrayList<User> userList) {
         for (User user : userList) {
             if (user.getName().toLowerCase().contains(searchName.toLowerCase())) {
                 user.userInfor();
             }
         }
-        System.out.println("Couldn't find any user. Try it again");
+        System.out.println("Couldn't find any user? Try it again");
     }
 
 
-
+    //remove a book from bookList
     private void removeBook(Book book, ArrayList<Book> bookList) {
         bookList.remove(book);
         System.out.printf("The book : '%s' is removed", book.getTitle());
     }
 
+    //remove a user from userList
     private void removeUser(User user, ArrayList<User> userList) {
         userList.remove(user);
         System.out.printf("The user : '%s' is removed", user.getName());

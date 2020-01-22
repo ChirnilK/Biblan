@@ -20,14 +20,14 @@ public class Library implements Serializable {
         boolean on = true;
         loadingFiles("books", "users");
         while(on) {
-            startMenu();                                    // login or quit
+            startMenu();                                    // start menu : 1.Login,  2.Quit
             Scanner scanner = new Scanner(System.in);
             String choice = scanner.nextLine();
             switch (choice) {
                 case "1": //log in
-                    User user = userLogIn();
+                    User user = userLogIn();                // insert user name and password
                     if (user != null) {
-                        libraryStart(user);
+                        libraryStart(user);                 // if username and password input correctly, start library menu
                     }
                     break;
 
@@ -45,29 +45,29 @@ public class Library implements Serializable {
 
     private void libraryStart(User user) {
 
-        boolean isUserLib = adminCheck(user);  //check if the user is librarian or not
+        boolean isUserLib = adminCheck(user);  // return true == librarian, false == customer
         boolean logIn = true;
         while (logIn) {
             mainMenu();
             Scanner scanner = new Scanner(System.in);
             String whoUseSystem = scanner.nextLine();
             switch (whoUseSystem) {
-                case "1": //Librarian
+                case "1":                    // the user is librarian && chose librarian menu
                     if(isUserLib){
                         currentLibrarian = (Librarian) user;
                         currentLibrarian.librarian(books, users, user);
                     }
-                    else{
+                    else{                    // the user is customer && chose librarian menu
                         System.out.println("You don't have a permission");
                     }
                     break;
 
                 case "2":
-                    if(!isUserLib) {
+                    if(!isUserLib) {           // the user is customer && chose customer menu
                         currentCustomer = (Customer) user;
                         currentCustomer.customer(books, users, user);
                     }
-                    else{
+                    else{                     // the user is librarian && chose customer menu
                         System.out.println("Log in as a customer");
                     }
                     break;
@@ -132,7 +132,7 @@ public class Library implements Serializable {
     }
 
 
-    //find a user by name in userList, return User. InputName should be exactly same spell as userName. No partial string.
+    //return User if inputName and inputPassword are insert correctly and match one in the user list. No partial string.
     private User getUser(String inputName, int inputPassword) {
         for (User user : users) {
             if (user.getName().toLowerCase().equals(inputName.toLowerCase())&&user.getPassword()==inputPassword) {
@@ -163,6 +163,7 @@ public class Library implements Serializable {
         return null;
     }
 
+    // return true if the user is librarian
     private boolean adminCheck(User user) {
         return user instanceof Librarian;
     }
@@ -176,6 +177,8 @@ public class Library implements Serializable {
         this.books = books;
     }
 
+    //creat file and save the information(originalData()) if these files don't exist in the path.
+    //otherwise load the files and set to the arrayLists, books, users
     private void loadingFiles(String fileName1, String fileName2) throws IOException {
         fileName1 = fileName1 + ".ser";
         Path path1 = Paths.get(fileName1);
