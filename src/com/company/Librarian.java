@@ -151,7 +151,7 @@ public class Librarian extends User {
         System.out.println("6 : Remove user");
         System.out.println("7 : Search user");
         System.out.println("8 : Show borrowed books by all user");
-        System.out.println("9 : Quit");
+        System.out.println("9 : Save/Quit");
         System.out.println("-----------------------");
     }
 
