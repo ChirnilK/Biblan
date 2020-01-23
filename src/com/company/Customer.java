@@ -119,7 +119,7 @@ public class Customer extends User {
         System.out.println("4 : Show all available books");
         System.out.println("5 : Show all library books");
         System.out.println("6 : Search book");
-        System.out.println("9 : Quit");
+        System.out.println("9 : Save/Quit");
         System.out.println("-----------------------");
     }
 
@@ -130,7 +130,7 @@ public class Customer extends User {
         System.out.println("1 : Sort the book list by title");
         System.out.println("2 : Sort the book list by author");
         System.out.println("3 : Show more details of book");
-        System.out.println("4 : Save/Quit");
+        System.out.println("4 : Quit");
         System.out.println("Enter a number");
         System.out.println("======================================");
     }

@@ -10,7 +10,6 @@ public class Librarian extends User {
     }
 
     public void librarian(ArrayList<Book> bookList, ArrayList<User> userList, User user) {
-        isOverdue(user);                              //if the user has overdue book, gets remainder
         boolean lib = true;
         while (lib) {
             librarianMenu();
